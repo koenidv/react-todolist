@@ -3,7 +3,8 @@ const PUBLIC_CLIENT_KEY = "fnAElcE837AAyMtgyfnBe9Lr5xztgxRfkTl5edxn"
 
 // Instantiate a FaunaDB client using the public client key
 // This key has read access to the users_by_email index and create access to the user collection
-const fauna = new faunadb.Client({
+// Once we have obtained an access token, we will use that
+export const fauna = new faunadb.Client({
     secret: PUBLIC_CLIENT_KEY,
     domain: "db.eu.fauna.com",
     scheme: "https"

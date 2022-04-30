@@ -14,12 +14,17 @@ function LoginWrapper() {
 
     const handleLogin = () => {
         login(email, password)
-        .then((secret) => alert("Login successful! Token is " + secret))
+        .then((secret) => {
+            alert("Login successful! Token is " + secret)
+            sessionStorage.setItem("secret", secret)
+        })
         .catch((err) => {
             if (err.message === "authentication failed")
                 setMessage("Please check your username and password and try again.")
-            else 
+            else {
                 setMessage("An error occured. Please try again later.")
+                console.log(err)
+            }
         })
     }
 

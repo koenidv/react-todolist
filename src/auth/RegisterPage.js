@@ -27,7 +27,11 @@ function RegisterWrapper() {
 
         // Create a new user with the specified username/email and password
         createUser(email, password)
-            .then((secret) => alert("Creation & login successful! Token is " + secret))
+            .then((secret) => {
+                alert("Creation & login successful! Token is " + secret)
+                sessionStorage.setItem("secret", secret)
+                
+            })
             .catch((err) => {
                 setMessage("An error occurred. Please try again later.")
             })
