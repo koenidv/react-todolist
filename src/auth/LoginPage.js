@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { BaseButton, BaseInput } from "../BaseComponents/InputBaseComponents"
+import { AuthBox, AuthBoxWrapper, AuthButton, AuthInfoText, AuthInput, AuthTitle } from "./AuthComponents"
 import { login } from "./faunaAuth"
 
 export function LoginPage() {
@@ -17,11 +18,17 @@ function LoginWrapper() {
     const handleSetEmail = ({ target }) => { setEmail(target.value) }
     const handleSetPassword = ({ target }) => { setPassword(target.value) }
 
+    const buttonActive = email !== "" && password !== "";
+
     return (
-        <>
-            <BaseInput placeholder="email" value={email} onChange={handleSetEmail} />
-            <BaseInput placeholder="password" value={password} onChange={handleSetPassword} />
-            <BaseButton onClick={handleLogin}>Login</BaseButton>
-        </>
+        <AuthBoxWrapper>
+            <AuthBox>
+                <AuthTitle> Welcome back!</AuthTitle>
+                <AuthInput placeholder="Your Username" value={email} onChange={handleSetEmail} />
+                <AuthInput placeholder="Your Password" value={password} onChange={handleSetPassword} />
+                <AuthButton onClick={handleLogin} className={buttonActive ? "active" : ""}>Login</AuthButton>
+                <AuthInfoText>Don't have an account yet? <a href="/register">Create one now!</a></AuthInfoText>
+            </AuthBox>
+        </AuthBoxWrapper>
     )
 }
