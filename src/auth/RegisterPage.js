@@ -13,6 +13,7 @@ function RegisterWrapper() {
     const [passwordConfirm, setPasswordConfirm] = useState("")
     const [message, setMessage] = useState("")
 
+    //Checks if the inputs are valid and creates a new user
     const handleCreateUser = () => {
         // Check if a username is specified and the passwords match up
         if (email === "") {
@@ -26,8 +27,16 @@ function RegisterWrapper() {
 
         // Create a new user with the specified username/email and password
         createUser(email, password)
-        .then((res) => {console.log(res)})
-        .catch((err) => setMessage("An error occurred: " + err.toString()))
+            .then((secret) => alert("Creation & login successful! Token is " + secret))
+            .catch((err) => {
+                setMessage("An error occurred. Please try again later.")
+            })
+    }
+
+    const handleKeyDown = (e) => {
+        if (e.key === "Enter") {
+            handleCreateUser()
+        }
     }
 
     const handleSetEmail = ({ target }) => { setEmail(target.value) }
@@ -43,7 +52,8 @@ function RegisterWrapper() {
                 <AuthInfoText className="warning">{message}</AuthInfoText>
                 <AuthInput placeholder="Choose a Username" value={email} onChange={handleSetEmail} />
                 <AuthInput placeholder="Choose a Password" value={password} onChange={handleSetPassword} />
-                <AuthInput placeholder="Repeat your Password" value={passwordConfirm} onChange={handleSetPasswordConfirm} />
+                <AuthInput placeholder="Repeat your Password" value={passwordConfirm}
+                    onChange={handleSetPasswordConfirm} onKeyDown={handleKeyDown} />
                 <AuthButton onClick={handleCreateUser} className={buttonActive ? "active" : ""}>Create your Account</AuthButton>
                 <AuthInfoText>Already have an account? <a href="/login">Go to Login</a></AuthInfoText>
             </AuthBox>

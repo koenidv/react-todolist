@@ -9,6 +9,7 @@ const fauna = new faunadb.Client({
     scheme: "https"
 })
 
+// Creates a new account and resolves to an access token if successful
 export function createUser(email, password) {
     return new Promise((resolve, reject) => {
 
@@ -22,16 +23,22 @@ export function createUser(email, password) {
                 }
             })
         )
-            .then((ret) => console.log(ret))
-            .catch((err) => console.error(
-                'Error: [%s] %s: %s',
-                err.name,
-                err.message,
-                err.errors()[0].description,
-            ))
+            .then((ret) => {
+                // If the account was created successfully,
+                // log the user in the using the same credentials
+                console.log(ret)
+                login(email, password)
+                    .then((secret) => resolve(secret))
+                    .catch((err) => reject(err))
+            })
+            .catch((err) => {
+                console.error(err)
+                reject(err)
+            })
     })
 }
 
+// Tries to log the user in and resolves to an access token if credentials are valid
 export function login(email, password) {
     return new Promise((resolve, reject) => {
         // Query to get an access token from FaunaDB
@@ -44,13 +51,11 @@ export function login(email, password) {
             ))
             .then((ret) => {
                 console.log(ret)
-                alert("Login successful! Token is " + ret.secret)
+                resolve(ret.secret)
             })
-            .catch((err) => console.error(
-                'Error: [%s] %s: %s',
-                err.name,
-                err.message,
-                err.errors()[0].description,
-            ))
+            .catch((err) => {
+                console.error(err)
+                reject(err)
+            })
     })
 }
