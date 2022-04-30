@@ -1,5 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from './logo.svg'
+import './App.css'
+import {LoginPage, RegisterPage} from "./auth/SignInComponents"
+import { Route, Routes } from 'react-router-dom'
+
+function RoutingWrapper() {
+  return (
+    <Routes>
+      <Route path="/" element={<App />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
+    </Routes>
+  )
+
+}
 
 function App() {
   return (
@@ -22,4 +35,4 @@ function App() {
   );
 }
 
-export default App;
+export default RoutingWrapper
