@@ -1,4 +1,5 @@
-import faunadb, { Collection, query as q } from "faunadb"
+import faunadb, { query as q } from "faunadb"
+import { getSecret } from "../faunaDb"
 const PUBLIC_CLIENT_KEY = "fnAElcE837AAyMtgyfnBe9Lr5xztgxRfkTl5edxn"
 
 // Instantiate a FaunaDB client using the public client key
@@ -9,6 +10,11 @@ export const fauna = new faunadb.Client({
     domain: "db.eu.fauna.com",
     scheme: "https"
 })
+
+export function saveToSession([secret, userRef]) {
+    sessionStorage.setItem("secret", secret)
+    sessionStorage.setItem("userRef", userRef)
+}
 
 // Creates a new account and resolves to an access token if successful
 export function createUser(email, password) {
@@ -29,7 +35,7 @@ export function createUser(email, password) {
                 // log the user in the using the same credentials
                 console.log(ret)
                 login(email, password)
-                    .then((secret) => resolve(secret))
+                    .then((res) => resolve(res))
                     .catch((err) => reject(err))
             })
             .catch((err) => {
@@ -50,13 +56,36 @@ export function login(email, password) {
                 q.Match(q.Index("users_by_email"), email),
                 { password: password }
             ))
-            .then((ret) => {
-                console.log(ret)
-                resolve(ret.secret)
+            .then((res) => {
+                console.log(res)
+                resolve([res.secret, res.instance])
             })
             .catch((err) => {
                 console.error(err)
                 reject(err)
             })
     })
+}
+
+// Logs the user out and invalidates the access token
+export function logout() {
+    return new Promise((resolve, reject) => {
+        const secret = getSecret()
+
+        // Check if a secret is saved in session storage, 
+        // reject if not
+        if (secret === null) reject({
+            name: "PermissionDenied",
+            message: "No access token provided"
+        })
+
+        const clientWithSecret = new faunadb.Client({ secret: secret, domain: "db.eu.fauna.com" })
+
+        // Log out using the current access token
+        clientWithSecret.query(q.Logout(false))
+            .then((res) => resolve(res))
+            .catch((err) => reject(err))
+
+    })
+
 }

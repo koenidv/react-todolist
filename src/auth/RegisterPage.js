@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { AuthBox, AuthBoxWrapper, AuthButton, AuthInfoText, AuthInput, AuthTitle } from "./AuthComponents"
-import { createUser } from "./faunaAuth"
+import { createUser, saveToSession } from "./faunaAuth"
 
 export function RegisterPage() {
 
@@ -27,9 +27,9 @@ function RegisterWrapper() {
 
         // Create a new user with the specified username/email and password
         createUser(email, password)
-            .then((secret) => {
-                alert("Creation & login successful! Token is " + secret)
-                sessionStorage.setItem("secret", secret)
+            .then((res) => {
+                alert("Creation & login successful! Token is " + res[0])
+                saveToSession(res)
                 
             })
             .catch((err) => {

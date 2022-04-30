@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { BaseButton, BaseInput } from "../BaseComponents/InputBaseComponents"
 import { AuthBox, AuthBoxWrapper, AuthButton, AuthInfoText, AuthInput, AuthTitle } from "./AuthComponents"
-import { login } from "./faunaAuth"
+import { login, saveToSession } from "./faunaAuth"
 
 export function LoginPage() {
     return (<LoginWrapper />)
@@ -14,9 +14,9 @@ function LoginWrapper() {
 
     const handleLogin = () => {
         login(email, password)
-        .then((secret) => {
-            alert("Login successful! Token is " + secret)
-            sessionStorage.setItem("secret", secret)
+        .then((res) => {
+            alert("Login successful! Token is " + res[0])
+            saveToSession(res)
         })
         .catch((err) => {
             if (err.message === "authentication failed")
