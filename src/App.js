@@ -1,7 +1,8 @@
 import logo from './logo.svg'
 import './App.css'
-import {LoginPage, RegisterPage} from "./auth/SignInComponents"
 import { Route, Routes } from 'react-router-dom'
+import { LoginPage } from './auth/LoginPage';
+import { RegisterPage } from './auth/RegisterPage';
 
 function RoutingWrapper() {
   return (
