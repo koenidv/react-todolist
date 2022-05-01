@@ -1,10 +1,32 @@
 import { BaseButton } from "../baseComponents/InputBaseComponents"
-import { ContentArea, PropertiesArea, TodoBox, TodoInputMain, TodoTextArea, TodoButtonAction } from "./TodoComponents"
-import { useState } from "react"
+import { ContentArea, PropertiesArea, TodoBox, TodoInputMain, TodoTextArea, TodoButtonAction, TodoButtonMainCreate } from "./TodoComponents"
+import { useState, useEffect } from "react"
 import { createTodo } from "../faunaDb"
 
+// Displays a button to show the EditTodo component to create a new task
+export function CreateTodoButton({ entries, setEntries, expanded }) {
+    const [createVisible, setCreateVisible] = useState(expanded)
+
+    const handleShowCreate = () => setCreateVisible(true)
+    const handleHideCreate = () => setCreateVisible(false)
+
+    const handleSaveTodo = (task) => {
+        setEntries([...entries, task])
+        handleHideCreate()
+    }
+
+    useEffect(() => {
+        setCreateVisible(expanded)
+    }, [expanded])
+
+    return (<>
+        <TodoButtonMainCreate onClick={handleShowCreate} className={createVisible ? "hidden" : ""}>Create a Task</TodoButtonMainCreate>
+        <EditTodo saveTodo={handleSaveTodo} className={createVisible ? "" : "hidden"} />
+    </>)
+}
+
 // Form to create / edit a task
-export function EditTodo({ saveTodo }) {
+export function EditTodo({ saveTodo, className }) {
     const [title, setTitle] = useState("")
     const [description, setDiscription] = useState("")
     const [due, setDue] = useState()
@@ -27,7 +49,7 @@ export function EditTodo({ saveTodo }) {
     const handleSetTitle = ({ target }) => setTitle(target.value)
 
     return (
-        <TodoBox>
+        <TodoBox className={className}>
             <ContentArea>
                 <TodoInputMain placeholder="Title" value={title} onChange={handleSetTitle} onKeyDown={handleKeyDown} />
                 <HiddenDescription description={description} setDescription={setDiscription} onKeyDown={handleKeyDown} />

@@ -45,9 +45,9 @@ export const BaseTextArea = styled.textarea`
     }
 `
 
-export const BaseButton = styled.button`
+export const BaseButtonBorderless = styled.button`
     background-color: transparent;
-    border: 1px solid #aaaaaa;
+    border: none;
     padding: 1rem;
     font-size: 1rem;
     color: #ffffff;
@@ -56,11 +56,22 @@ export const BaseButton = styled.button`
     text-align: center;
     transition: border-radius 100ms, border-color 100ms, background-color 150ms ease-out;
     user-select: none;
+    border-radius: 4px;
+
+    &:hover, &:active, &:focus {
+        background-color: #242424;
+        cursor: pointer
+    }
+`
+
+export const BaseButton = styled(BaseButtonBorderless)`
+    border: 1px solid #aaaaaa;
+    border-radius: 0;
 
     &:hover, &:active, &:focus {
         border-radius: 4px;
         border-color: #ffffff;
-        background-color: #101010;
+        background-color: #161616;
     }
 `
 

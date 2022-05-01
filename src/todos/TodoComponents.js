@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { BaseButtonAction, BaseInput, BaseInputBorderless, BaseTextArea } from "../baseComponents/InputBaseComponents"
+import { BaseButtonAction, BaseButtonBorderless, BaseInputBorderless, BaseTextArea } from "../baseComponents/InputBaseComponents"
 
 // Containers
 
@@ -54,6 +54,11 @@ export const TodoTextArea = styled(BaseTextArea)`
 
 export const TodoButtonAction = styled(BaseButtonAction)`
     width: 100%;
+`
+
+export const TodoButtonMainCreate = styled(BaseButtonBorderless)`
+    width: calc(100% - 4rem);
+    margin: 0 2rem 1rem 2rem;
 `
 
 // Text

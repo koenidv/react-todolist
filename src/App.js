@@ -7,7 +7,7 @@ import { createTodo, getTodos } from "./faunaDb"
 import { Header, HeaderIcon, HeaderIconContainer, HeaderTitlePersonalized } from "./header/HeaderComponents"
 import { clearSession } from "./auth/faunaAuth"
 import { TodosList } from "./todos/TodoList"
-import { EditTodo } from "./todos/EditTodo"
+import { CreateTodoButton, EditTodo } from "./todos/EditTodo"
 
 function RoutingWrapper() {
   return (
@@ -56,7 +56,7 @@ function App() {
           <HeaderIcon type="logout" navto="/logout" tooltip="Logout" />
         </HeaderIconContainer>
       </Header>
-      <EditTodo saveTodo={addTask} />
+      <CreateTodoButton entries={entries} setEntries={setEntries} expanded={entries.length === 0} />
       <TodosList todos={entries} />
     </div>
   );
