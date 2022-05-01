@@ -9,10 +9,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+input, select, textarea, button{font-family:inherit;}
+
 a {
   color: #6a459f;
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }

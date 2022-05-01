@@ -1,13 +1,13 @@
 import { Route, Routes, useNavigate } from "react-router-dom"
 import { LoginPage } from "./auth/LoginPage"
 import { RegisterPage } from "./auth/RegisterPage"
-import { useState, useEffect } from "react"
-import { BaseInput } from "./baseComponents/InputBaseComponents"
-import { createTodo, getTodos } from "./faunaDb"
 import { LogoutPage } from "./auth/LogoutPage"
+import { useState, useEffect } from "react"
+import { createTodo, getTodos } from "./faunaDb"
 import { Header, HeaderIcon, HeaderIconContainer, HeaderTitlePersonalized } from "./header/HeaderComponents"
 import { clearSession } from "./auth/faunaAuth"
-import { CreateTodoForm, TodosList } from "./todos/TodoList"
+import { TodosList } from "./todos/TodoList"
+import { EditTodo } from "./todos/EditTodo"
 
 function RoutingWrapper() {
   return (
@@ -27,9 +27,6 @@ function App() {
   const [input, setInput] = useState("")
   const navigate = useNavigate()
 
-  const handleSetInput = ({ target }) => { setInput(target.value) }
-  const handleKeyDown = (e) => { if (e.key === "Enter") createTodo(input) }
-
   useEffect(() => {
     // Collect the user's entries from Fauna
     getTodos()
@@ -45,6 +42,12 @@ function App() {
 
   }, [navigate])
 
+  const addTask = (task) => {
+    console.log(entries)
+    setEntries([...entries, task])
+    console.log(entries)
+  }
+
   return (
     <div className="App">
       <Header>
@@ -53,7 +56,7 @@ function App() {
           <HeaderIcon type="logout" navto="/logout" tooltip="Logout" />
         </HeaderIconContainer>
       </Header>
-      <CreateTodoForm />
+      <EditTodo saveTodo={addTask} />
       <TodosList todos={entries} />
     </div>
   );

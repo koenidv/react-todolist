@@ -18,6 +18,7 @@ export const BaseInputBorderless = styled.input`
 
 export const BaseInput = styled(BaseInputBorderless)`
     border: 1px solid #aaaaaa;
+    font-family: "Space Mono";
     transition: border-radius 100ms, border-color 100ms;
 
     &:hover, &:active, &:focus {
@@ -66,6 +67,7 @@ export const BaseButton = styled.button`
 export const BaseButtonAction = styled(BaseButton)`
     background-color: #161616;
     border: none;
+    display: block;
 
     &:hover {
         cursor: not-allowed;
@@ -75,6 +77,7 @@ export const BaseButtonAction = styled(BaseButton)`
         background-color: #6a459f;
 
         &:hover {
+            cursor: pointer;
             background-color: #7857a8;
         }
     }
