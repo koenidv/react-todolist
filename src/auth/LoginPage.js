@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { BaseButton, BaseInput } from "../BaseComponents/InputBaseComponents"
 import { AuthBox, AuthBoxWrapper, AuthButton, AuthInfoText, AuthInput, AuthTitle } from "./AuthComponents"
 import { login, saveToSession } from "./faunaAuth"
@@ -11,12 +12,13 @@ function LoginWrapper() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [message, setMessage] = useState("")
+    const navigate = useNavigate()
 
     const handleLogin = () => {
         login(email, password)
         .then((res) => {
-            alert("Login successful! Token is " + res[0])
             saveToSession(res)
+            navigate("/")
         })
         .catch((err) => {
             if (err.message === "authentication failed")

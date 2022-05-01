@@ -1,9 +1,10 @@
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom'
 import { LoginPage } from './auth/LoginPage';
 import { RegisterPage } from './auth/RegisterPage';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BaseInput } from './BaseComponents/InputBaseComponents';
-import { createTodo } from './faunaDb';
+import { createTodo, getIdentity, getTodos } from './faunaDb';
+import { LogoutPage } from './auth/LogoutPage';
 
 function RoutingWrapper() {
   return (
@@ -11,6 +12,7 @@ function RoutingWrapper() {
       <Route path="*" element={<App />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
+      <Route path="/logout" element={<LogoutPage />} />
     </Routes>
   )
 
@@ -20,23 +22,40 @@ function App() {
   // Use state to update the UI once todo entries are loaded
   const [entries, setEntries] = useState([])
   const [input, setInput] = useState("")
+  const navigate = useNavigate()
 
+  const handleSetInput = ({ target }) => { setInput(target.value) }
+  const handleKeyDown = (e) => { if (e.key === "Enter") createTodo(input) }
 
-  // If no user secret is saved in session storage, redirect to login page
-  if (sessionStorage.getItem("secret") === null)
-    return (<Navigate replace to="/login" />)
+  useEffect(() => {
+    // Collect the user's entries from Fauna
+    getTodos()
+      .then((res) => {
+        setEntries(res)
+      })
+      .catch((err) => {
+        if (err.name === "Unauthorized" || err.name === "PermissionDenied")
+          navigate("/login")
+      })
 
-  const handleSetInput = ({target}) => { setInput(target.value) }
-  const handleKeyDown = (e) => {if (e.key === "Enter") createTodo(input)}
-  
+  }, [])
 
   return (
     <div className="App">
       Todolist App for SE_19 <br />
-      <a href="/login">Login</a> or <a href="/register">Register</a>
+      <a href="/logout">Logout</a>
       <BaseInput value={input} onChange={handleSetInput} onKeyDown={handleKeyDown} />
+      <TempListView entries={entries} />
     </div>
   );
+}
+
+function TempListView({ entries }) {
+  let list = ""
+  if (entries.length > 0) {
+    list = entries.map((entry) => <li key={entry.ref.value.id}>{entry.data.title}</li>)
+  }
+  return list
 }
 
 export default RoutingWrapper

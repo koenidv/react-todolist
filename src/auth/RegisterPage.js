@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { AuthBox, AuthBoxWrapper, AuthButton, AuthInfoText, AuthInput, AuthTitle } from "./AuthComponents"
 import { createUser, saveToSession } from "./faunaAuth"
 
@@ -12,6 +13,7 @@ function RegisterWrapper() {
     const [password, setPassword] = useState("")
     const [passwordConfirm, setPasswordConfirm] = useState("")
     const [message, setMessage] = useState("")
+    const navigate = useNavigate("/")
 
     //Checks if the inputs are valid and creates a new user
     const handleCreateUser = () => {
@@ -28,8 +30,8 @@ function RegisterWrapper() {
         // Create a new user with the specified username/email and password
         createUser(email, password)
             .then((res) => {
-                alert("Creation & login successful! Token is " + res[0])
                 saveToSession(res)
+                navigate("/")
                 
             })
             .catch((err) => {

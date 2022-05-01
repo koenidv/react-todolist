@@ -9,7 +9,7 @@ export function LogoutPage() {
         logout()
             .then((res) => {
                 sessionStorage.removeItem("secret")
-                sessionStorage.removeItem("userRef")
+                sessionStorage.removeItem("userId")
                 navigate("/")
             })
             .catch((err) => {

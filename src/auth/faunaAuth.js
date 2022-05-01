@@ -13,7 +13,7 @@ export const fauna = new faunadb.Client({
 
 export function saveToSession([secret, userRef]) {
     sessionStorage.setItem("secret", secret)
-    sessionStorage.setItem("userRef", userRef)
+    sessionStorage.setItem("userId", userRef.value.id)
 }
 
 // Creates a new account and resolves to an access token if successful
