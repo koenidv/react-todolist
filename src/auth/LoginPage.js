@@ -1,11 +1,14 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { BaseButton, BaseInput } from "../BaseComponents/InputBaseComponents"
 import { AuthBox, AuthBoxWrapper, AuthButton, AuthInfoText, AuthInput, AuthTitle } from "./AuthComponents"
 import { login, saveToSession } from "./faunaAuth"
 
 export function LoginPage() {
-    return (<LoginWrapper />)
+    return (
+        <div className="app">
+            <LoginWrapper />)
+        </div>
+    )
 }
 
 function LoginWrapper() {
@@ -16,18 +19,18 @@ function LoginWrapper() {
 
     const handleLogin = () => {
         login(email, password)
-        .then((res) => {
-            saveToSession(res)
-            navigate("/")
-        })
-        .catch((err) => {
-            if (err.message === "authentication failed")
-                setMessage("Please check your username and password and try again.")
-            else {
-                setMessage("An error occured. Please try again later.")
-                console.log(err)
-            }
-        })
+            .then((res) => {
+                saveToSession(res)
+                navigate("/")
+            })
+            .catch((err) => {
+                if (err.message === "authentication failed")
+                    setMessage("Please check your username and password and try again.")
+                else {
+                    setMessage("An error occured. Please try again later.")
+                    console.log(err)
+                }
+            })
     }
 
     const handleKeyDown = (e) => {

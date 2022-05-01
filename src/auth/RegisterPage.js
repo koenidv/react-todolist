@@ -5,7 +5,11 @@ import { createUser, saveToSession } from "./faunaAuth"
 
 export function RegisterPage() {
 
-    return (<RegisterWrapper />)
+    return (
+        <div className="app">
+            <RegisterWrapper />)
+        </div>
+    )
 }
 
 function RegisterWrapper() {

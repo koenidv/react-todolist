@@ -1,10 +1,12 @@
-import { Navigate, Route, Routes, useNavigate } from 'react-router-dom'
-import { LoginPage } from './auth/LoginPage';
-import { RegisterPage } from './auth/RegisterPage';
-import { useState, useEffect } from 'react';
-import { BaseInput } from './BaseComponents/InputBaseComponents';
-import { createTodo, getIdentity, getTodos } from './faunaDb';
-import { LogoutPage } from './auth/LogoutPage';
+import { Route, Routes, useNavigate } from "react-router-dom"
+import { LoginPage } from "./auth/LoginPage"
+import { RegisterPage } from "./auth/RegisterPage"
+import { useState, useEffect } from "react"
+import { BaseInput } from "./BaseComponents/InputBaseComponents"
+import { createTodo, getTodos } from "./faunaDb"
+import { LogoutPage } from "./auth/LogoutPage"
+import { Header, HeaderIcon, HeaderIconContainer, HeaderTitlePersonalized } from "./header/HeaderComponents"
+import { clearSession } from "./auth/faunaAuth"
 
 function RoutingWrapper() {
   return (
@@ -34,16 +36,22 @@ function App() {
         setEntries(res)
       })
       .catch((err) => {
-        if (err.name === "Unauthorized" || err.name === "PermissionDenied")
+        if (err.name === "Unauthorized" || err.name === "PermissionDenied") {
+          clearSession()
           navigate("/login")
+        }
       })
 
   }, [])
 
   return (
     <div className="App">
-      Todolist App for SE_19 <br />
-      <a href="/logout">Logout</a>
+      <Header>
+        <HeaderTitlePersonalized />
+        <HeaderIconContainer>
+          <HeaderIcon type="logout" navto="/logout" tooltip="Logout" />
+        </HeaderIconContainer>
+      </Header>
       <BaseInput value={input} onChange={handleSetInput} onKeyDown={handleKeyDown} />
       <TempListView entries={entries} />
     </div>

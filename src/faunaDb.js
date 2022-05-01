@@ -1,4 +1,4 @@
-import faunadb, { Collection, Documents, query as q } from "faunadb"
+import faunadb, { query as q } from "faunadb"
 const PUBLIC_CLIENT_KEY = "fnAElcE837AAyMtgyfnBe9Lr5xztgxRfkTl5edxn"
 
 // Instantiate a FaunaDB client using the public client key

@@ -11,9 +11,16 @@ export const fauna = new faunadb.Client({
     scheme: "https"
 })
 
-export function saveToSession([secret, userRef]) {
+export function saveToSession([secret, userRef, email]) {
     sessionStorage.setItem("secret", secret)
     sessionStorage.setItem("userId", userRef.value.id)
+    sessionStorage.setItem("email", email)
+}
+
+export function clearSession() {
+    sessionStorage.removeItem("secret")
+    sessionStorage.removeItem("userId")
+    sessionStorage.removeItem("email")
 }
 
 // Creates a new account and resolves to an access token if successful
@@ -58,7 +65,7 @@ export function login(email, password) {
             ))
             .then((res) => {
                 console.log(res)
-                resolve([res.secret, res.instance])
+                resolve([res.secret, res.instance, email])
             })
             .catch((err) => {
                 console.error(err)
