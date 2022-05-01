@@ -84,6 +84,11 @@ export const BaseButtonAction = styled(BaseButton)`
         cursor: not-allowed;
     }
 
+    &.secondary:hover {
+        cursor: pointer;
+        background-color: #242424;
+    }
+
     &.active {
         background-color: #6a459f;
 

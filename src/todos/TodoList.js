@@ -144,7 +144,7 @@ function TodoView({ data, id, setExpanded, setEditing, handleCheckTodo, handleDe
           {!data.checked && <BaseButtonAction onClick={handleCheckTodo} checked={true} className="active" style={{ marginRight: "1rem" }}>Mark Complete</BaseButtonAction>}
           <BaseButtonBorderless onClick={handleEdit} style={{ marginRight: "1rem" }}>Edit</BaseButtonBorderless>
           <BaseButtonBorderless onClick={handleDelete} style={{ marginRight: "1rem" }}>Delete</BaseButtonBorderless>
-          <BaseButtonBorderless onClick={handleCollapse} style={{ marginRight: "1rem" }}>Close</BaseButtonBorderless>
+          <BaseButtonBorderless onClick={handleCollapse} style={{ marginRight: "1rem" }}>Cancel</BaseButtonBorderless>
         </LineWrapper>
       </TodoBody>
     </TodoBox>

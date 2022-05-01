@@ -13,7 +13,7 @@ export function CreateTodoButton({ entries, setEntries, expanded }) {
 
     const handleShowCreate = () => setCreateVisible(true)
     const handleHideCreate = () => setCreateVisible(false)
-
+    
     const handleCreateTask = (d) => {
         // Create Task on Fauna
         createTodo(d)
@@ -37,13 +37,13 @@ export function CreateTodoButton({ entries, setEntries, expanded }) {
 
     return (<>
         {!createVisible && <TodoButtonMainCreate onClick={handleShowCreate} >Create a Task</TodoButtonMainCreate>}
-        {createVisible && <EditTodo saveTodo={handleCreateTask} />}
+        {createVisible && <EditTodo saveTodo={handleCreateTask} cancelCallback={handleHideCreate} />}
     </>)
 }
 
 
 // Form to create / edit a task
-export function EditTodo({ current, saveTodo, className }) {
+export function EditTodo({ current, saveTodo, className, cancelCallback }) {
     // If current task is not provided, set it to an empty object to apply default state
     current = current || {}
     let currentDue
@@ -53,12 +53,15 @@ export function EditTodo({ current, saveTodo, className }) {
     const [description, setDiscription] = useState(current.descr || "")
     const [due, setDue] = useState(currentDue || null)
     const [priority, setPriority] = useState(current.priority || 0)
-    const [saveText, setSaveText] = useState("Save")
+    const [saveText, setSaveText] = useState(cancelCallback ? "Cancel" : "Save")
 
     // Handles saving the task
     const handleSave = () => {
         // If no title is specified, do nothing
-        if (title === "") return
+        if (title === "") {
+            if (cancelCallback) cancelCallback()
+            else return
+        }
 
         setSaveText("Saving…")
         if (priority === 0) setPriority(1)
@@ -92,7 +95,7 @@ export function EditTodo({ current, saveTodo, className }) {
                     <CalendarButton date={due} setDate={setDue} />
                     <PrioritySelection priority={priority} setPriority={setPriority} />
                 </div>
-                <TodoButtonAction onClick={handleSave} className={title !== "" ? "active" : ""}>{saveText}</TodoButtonAction>
+                <TodoButtonAction onClick={handleSave} className={title !== "" ? "active" : cancelCallback ? "secondary" : ""}>{saveText}</TodoButtonAction>
             </PropertiesArea>
         </TodoEditBox>
     )
