@@ -1,7 +1,9 @@
 import { BaseButton } from "../baseComponents/InputBaseComponents"
-import { ContentArea, PropertiesArea, TodoBox, TodoInputMain, TodoTextArea, TodoButtonAction, TodoButtonMainCreate } from "./TodoComponents"
+import { ContentArea, PropertiesArea, TodoBox, TodoInputMain, TodoTextArea, TodoButtonAction, TodoButtonMainCreate, TodoButtonText } from "./TodoComponents"
 import { useState, useEffect } from "react"
 import { createTodo } from "../faunaDb"
+import DatePicker from "react-date-picker/dist/entry.nostyle"
+import "./DatePickerStyle.scss"
 
 // Displays a button to show the EditTodo component to create a new task
 export function CreateTodoButton({ entries, setEntries, expanded }) {
@@ -20,8 +22,8 @@ export function CreateTodoButton({ entries, setEntries, expanded }) {
     }, [expanded])
 
     return (<>
-        <TodoButtonMainCreate onClick={handleShowCreate} className={createVisible ? "hidden" : ""}>Create a Task</TodoButtonMainCreate>
-        <EditTodo saveTodo={handleSaveTodo} className={createVisible ? "" : "hidden"} />
+        {!createVisible && <TodoButtonMainCreate onClick={handleShowCreate} >Create a Task</TodoButtonMainCreate>}
+        {createVisible && <EditTodo saveTodo={handleSaveTodo} />}
     </>)
 }
 
@@ -29,7 +31,7 @@ export function CreateTodoButton({ entries, setEntries, expanded }) {
 export function EditTodo({ saveTodo, className }) {
     const [title, setTitle] = useState("")
     const [description, setDiscription] = useState("")
-    const [due, setDue] = useState()
+    const [due, setDue] = useState(null)
     const [priority, setPriority] = useState(1)
     const [saveText, setSaveText] = useState("Save")
 
@@ -52,12 +54,12 @@ export function EditTodo({ saveTodo, className }) {
         <TodoBox className={className}>
             <ContentArea>
                 <TodoInputMain placeholder="Title" value={title} onChange={handleSetTitle} onKeyDown={handleKeyDown} />
-                <HiddenDescription description={description} setDescription={setDiscription} onKeyDown={handleKeyDown} />
+                <CollapsibleTextArea description={description} setDescription={setDiscription} onKeyDown={handleKeyDown} />
             </ContentArea>
             <PropertiesArea>
                 <div>
-                    <BaseButton>Add a Due Date</BaseButton>
-                    <BaseButton>Set a Priority</BaseButton>
+                    <CalendarButton date={due} setDate={setDue} />
+                    <TodoButtonText>Set a Priority</TodoButtonText>
                 </div>
                 <TodoButtonAction onClick={handleSave} className={title !== "" ? "active" : ""}>{saveText}</TodoButtonAction>
             </PropertiesArea>
@@ -65,18 +67,43 @@ export function EditTodo({ saveTodo, className }) {
     )
 }
 
+function CalendarButton({ date, setDate }) {
+    const [calendarVisible, setCalendarVisible] = useState(false)
+    const today = new Date()
+
+    const handleChange = (date) => setDate(date)
+
+    const showCalendar = () => setCalendarVisible(true)
+    const hideCalendar = () => setCalendarVisible(false)
+
+    const shortenYear = (year) => {
+        year = year.toString()
+        if (/20../.test(year)) return year.slice(-2)
+        else return year
+    }
+
+    const buttonText = date === null
+        ? "Add a Due Date"
+        : `Due ${date.getDate()}.${date.getMonth()}.${shortenYear(date.getFullYear())}`
+
+    return (<>
+        <TodoButtonText onClick={showCalendar} >{buttonText}</TodoButtonText>
+        <DatePicker onChange={handleChange} value={date} isOpen={calendarVisible} onCalendarClose={hideCalendar} minDate={today} />
+    </>)
+
+}
+
 // Displays a button to add a description. When clicked, a textarea is displayed
-function HiddenDescription({ description, setDescription, onKeyDown }) {
+function CollapsibleTextArea({ description, setDescription, onKeyDown }) {
     const [descriptionVisible, setDiscriptionVisible] = useState(false)
 
     const handleSetDescription = ({ target }) => setDescription(target.value)
     const handleShowDescription = () => setDiscriptionVisible(true)
 
     return (<>
-        <BaseButton onClick={handleShowDescription}
-            className={descriptionVisible ? "hidden" : ""}>Add a Description</BaseButton>
-        <TodoTextArea placeholder="Task Description" value={description}
+        {!descriptionVisible && <BaseButton onClick={handleShowDescription} >Add a Description</BaseButton>}
+        {descriptionVisible && <TodoTextArea placeholder="Task Description" value={description}
             onChange={handleSetDescription} className={descriptionVisible ? "" : "hidden"}
-            onKeyDown={onKeyDown} />
+            onKeyDown={onKeyDown} />}
     </>)
 }

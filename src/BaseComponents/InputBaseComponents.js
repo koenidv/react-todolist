@@ -58,7 +58,7 @@ export const BaseButtonBorderless = styled.button`
     user-select: none;
     border-radius: 4px;
 
-    &:hover, &:active, &:focus {
+    &:hover {
         background-color: #242424;
         cursor: pointer
     }
@@ -68,7 +68,7 @@ export const BaseButton = styled(BaseButtonBorderless)`
     border: 1px solid #aaaaaa;
     border-radius: 0;
 
-    &:hover, &:active, &:focus {
+    &:hover {
         border-radius: 4px;
         border-color: #ffffff;
         background-color: #161616;

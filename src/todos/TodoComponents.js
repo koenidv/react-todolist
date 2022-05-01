@@ -54,6 +54,12 @@ export const TodoTextArea = styled(BaseTextArea)`
 
 export const TodoButtonAction = styled(BaseButtonAction)`
     width: 100%;
+    margin-top: 1rem;
+`
+
+export const TodoButtonText = styled(BaseButtonBorderless)`
+    width: 100%;
+    text-align: start;
 `
 
 export const TodoButtonMainCreate = styled(BaseButtonBorderless)`
