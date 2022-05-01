@@ -1,5 +1,4 @@
 import faunadb, { query as q } from "faunadb"
-import { getSecret } from "../faunaDb"
 const PUBLIC_CLIENT_KEY = "fnAElcE837AAyMtgyfnBe9Lr5xztgxRfkTl5edxn"
 
 // Instantiate a FaunaDB client using the public client key
@@ -11,16 +10,24 @@ export const fauna = new faunadb.Client({
     scheme: "https"
 })
 
+// Save secret, userid and username to session storage
+// To remember the access token across page reloads
 export function saveToSession([secret, userRef, email]) {
     sessionStorage.setItem("secret", secret)
     sessionStorage.setItem("userId", userRef.value.id)
     sessionStorage.setItem("email", email)
 }
 
+// Removes saved data from session storage
 export function clearSession() {
     sessionStorage.removeItem("secret")
     sessionStorage.removeItem("userId")
     sessionStorage.removeItem("email")
+}
+
+// Retrieves the access token from session storage
+export function getSecret() {
+    return sessionStorage.getItem("secret")
 }
 
 // Creates a new account and resolves to an access token if successful
@@ -94,5 +101,22 @@ export function logout() {
             .catch((err) => reject(err))
 
     })
+}
 
+// Tests if the current access token is valid
+export function testSecret() {
+    return new Promise((resolve, reject) => {
+        const secret = getSecret()
+
+        // Check if a secret is saved in session storage, 
+        // reject if not
+        if (secret === null) reject({
+            name: "PermissionDenied",
+            message: "No access token provided"
+        })
+
+        fauna.query(q.CurrentIdentity(), { secret: secret })
+            .then((res) => resolve(res))
+            .catch((err) => reject(err))
+    })
 }

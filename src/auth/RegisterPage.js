@@ -1,9 +1,24 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { AuthBox, AuthBoxWrapper, AuthButton, AuthInfoText, AuthInput, AuthTitle } from "./AuthComponents"
-import { createUser, saveToSession } from "./faunaAuth"
+import { clearSession, createUser, getSecret, saveToSession, testSecret } from "./faunaAuth"
 
 export function RegisterPage() {
+    const navigate = useNavigate()
+
+    // If there is already an access token stored, check if it is valid
+    // If so, redirect to main page
+    // If there is an error (unauthed, network, ...) delete the stored token
+    useEffect(() => {
+        if (getSecret() !== null) {
+            testSecret()
+            .then((res) => navigate("/"))
+            .catch((err) => {
+                console.error(err)
+                clearSession()
+            })
+        }
+    }, [navigate])
 
     return (
         <div className="app">

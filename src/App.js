@@ -2,7 +2,7 @@ import { Route, Routes, useNavigate } from "react-router-dom"
 import { LoginPage } from "./auth/LoginPage"
 import { RegisterPage } from "./auth/RegisterPage"
 import { useState, useEffect } from "react"
-import { BaseInput } from "./BaseComponents/InputBaseComponents"
+import { BaseInput } from "./baseComponents/InputBaseComponents"
 import { createTodo, getTodos } from "./faunaDb"
 import { LogoutPage } from "./auth/LogoutPage"
 import { Header, HeaderIcon, HeaderIconContainer, HeaderTitlePersonalized } from "./header/HeaderComponents"
@@ -42,7 +42,7 @@ function App() {
         }
       })
 
-  }, [])
+  }, [navigate])
 
   return (
     <div className="App">
