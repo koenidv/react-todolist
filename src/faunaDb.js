@@ -40,7 +40,7 @@ export function getTodos() {
 }
 
 // Creates an entry in the todos collection
-export function createTodo(title, description, due, priority, checked) {
+export function createTodo({ title, descr, due, priority, checked }) {
     return new Promise((resolve, reject) => {
         // Check if a secret is saved in session storage, 
         // reject if not
@@ -56,17 +56,49 @@ export function createTodo(title, description, due, priority, checked) {
         fauna.query(q.Create(q.Collection("todos"), {
             data: {
                 title: title || "",
-                descr: description || "",
+                descr: descr || "",
                 due: due || null,
                 priority: priority || 1,
                 checked: checked || false,
                 owner: q.Ref(q.Collection("users"), sessionStorage.getItem("userId"))
             },
         }), { secret: secret })
-        .then((res) => resolve(res))
-        .catch((err) => {
-            console.error(err)
-            reject(err)
+            .then((res) => resolve(res))
+            .catch((err) => {
+                console.error(err)
+                reject(err)
+            })
+    })
+}
+
+// Updates an existing task using its id
+export function updateTodo(id, { title, descr, due, priority, checked }) {
+    return new Promise((resolve, reject) => {
+        // Check if a secret is saved in session storage, 
+        // reject if not
+        const secret = getSecret()
+        if (secret === null) reject({
+            name: "PermissionDenied",
+            message: "No access token provided"
         })
+        console.log(priority)
+        // Update the respective document with the new todo content
+        // The database will not allow changing documents with a different owner
+        // than the currently authenticated user or changing the owner
+        fauna.query(q.Update(
+            q.Ref(q.Collection("todos"), id), {
+            data: {
+                title: title || "",
+                descr: descr || "",
+                due: due || null,
+                priority: priority || 1,
+                checked: checked || false
+            }
+        }), { secret: secret })
+            .then((res) => resolve(res))
+            .catch((err) => {
+                console.error(err)
+                reject(err)
+            })
     })
 }

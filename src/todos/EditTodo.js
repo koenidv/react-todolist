@@ -14,28 +14,45 @@ export function CreateTodoButton({ entries, setEntries, expanded }) {
     const handleShowCreate = () => setCreateVisible(true)
     const handleHideCreate = () => setCreateVisible(false)
 
-    const handleSaveTodo = (task) => {
+    const handleCreateTask = (d) => {
+        // Create Task on Fauna
+        createTodo(d)
+            .then((task) => {
+                // Add to local list
+                addTaskToList(task)
+            })
+            .catch((err) => d.setMessage("Please try again"))
+    }
+
+    // Add a new task to the end of the list
+    const addTaskToList = (task) => {
         setEntries([...entries, task])
         handleHideCreate()
     }
 
+    // Update the createVisible state if the expanded prop changes
     useEffect(() => {
         setCreateVisible(expanded)
     }, [expanded])
 
     return (<>
         {!createVisible && <TodoButtonMainCreate onClick={handleShowCreate} >Create a Task</TodoButtonMainCreate>}
-        {createVisible && <EditTodo saveTodo={handleSaveTodo} />}
+        {createVisible && <EditTodo saveTodo={handleCreateTask} />}
     </>)
 }
 
 
 // Form to create / edit a task
-export function EditTodo({ saveTodo, className }) {
-    const [title, setTitle] = useState("")
-    const [description, setDiscription] = useState("")
-    const [due, setDue] = useState(null)
-    const [priority, setPriority] = useState(0)
+export function EditTodo({ current, saveTodo, className }) {
+    // If current task is not provided, set it to an empty object to apply default state
+    current = current || {}
+    let currentDue
+    if (current.due !== undefined) currentDue = new Date(current.due)
+
+    const [title, setTitle] = useState(current.title || "")
+    const [description, setDiscription] = useState(current.descr || "")
+    const [due, setDue] = useState(currentDue || null)
+    const [priority, setPriority] = useState(current.priority || 0)
     const [saveText, setSaveText] = useState("Save")
 
     // Handles saving the task
@@ -48,13 +65,15 @@ export function EditTodo({ saveTodo, className }) {
         // Convert the due date to string
         const dueString = due ? due.getTime() : ""
 
-        // Create Task on Fauna
-        createTodo(title, description, dueString, priority, false)
-            .then((task) => {
-                // Add to display list or update
-                saveTodo(task)
-            })
-            .catch((err) => setSaveText("Please try again"))
+        // Let the provided callback handle creating or updating the task
+        saveTodo({
+            setMessage: setSaveText,
+            title: title,
+            descr: description,
+            due: dueString,
+            priority: priority,
+            checked: current.checked || false
+        })
     }
 
     const handleKeyDown = (e) => {
@@ -129,7 +148,7 @@ function SelectButton({ value, selected, setSelected, children }) {
 
 // Displays a button to add a description. When clicked, a textarea is displayed
 function CollapsibleTextArea({ description, setDescription, onKeyDown }) {
-    const [descriptionVisible, setDiscriptionVisible] = useState(false)
+    const [descriptionVisible, setDiscriptionVisible] = useState(description !== "")
 
     const handleSetDescription = ({ target }) => setDescription(target.value)
     const handleShowDescription = () => setDiscriptionVisible(true)

@@ -24,7 +24,6 @@ function RoutingWrapper() {
 function App() {
   // Use state to update the UI once todo entries are loaded
   const [entries, setEntries] = useState([])
-  const [input, setInput] = useState("")
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -35,6 +34,8 @@ function App() {
         console.log(res)
       })
       .catch((err) => {
+        // If todos could not be loaded because the user is unathorized,
+        // remove the local access token and navigate to login
         if (err.name === "Unauthorized" || err.name === "PermissionDenied") {
           clearSession()
           navigate("/login")
@@ -42,12 +43,6 @@ function App() {
       })
 
   }, [navigate])
-
-  const addTask = (task) => {
-    console.log(entries)
-    setEntries([...entries, task])
-    console.log(entries)
-  }
 
   return (
     <div className="App">
@@ -58,7 +53,7 @@ function App() {
         </HeaderIconContainer>
       </Header>
       <CreateTodoButton entries={entries} setEntries={setEntries} expanded={entries.length === 0} />
-      <TodosList todos={entries} />
+      <TodosList todos={entries} setTodos={setEntries} />
     </div>
   );
 }
