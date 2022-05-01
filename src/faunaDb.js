@@ -27,14 +27,22 @@ export function getTodos() {
             message: "No access token provided"
         })
 
-        fauna.query(q.Map(
-            q.Paginate(Documents(Collection("todos"))),
-            q.Lambda(x => q.Get(x))
-        ), { secret: secret })
+        // Query all own documents using the todos_by_owner index
+        // The database will not allow access to documents with a different owner
+        // than the currently authenticated one
+        fauna.query(q.Map(q.Paginate(q.Match(
+            q.Index("todos_by_owner"),
+            q.Ref(q.Collection("users"), sessionStorage.getItem("userId")))),
+            q.Lambda(x => q.Get(x))),
+            { secret: secret }
+        )
             .then((res) => {
                 resolve(res.data)
             })
-            .catch((err) => { reject(err) })
+            .catch((err) => {
+                reject(err)
+                console.error(err)
+            })
     })
 }
 
@@ -49,11 +57,19 @@ export function createTodo(content) {
             message: "No access token provided"
         })
 
+        // Create a new document in todos with the todo content
+        // and the currently authenticated user's Ref
+        // The database will not allow creating documents with a owner
         fauna.query(q.Create(q.Collection("todos"), {
             data: {
                 title: content,
                 owner: q.Ref(q.Collection("users"), sessionStorage.getItem("userId"))
             },
         }), { secret: secret })
+        .then((res) => resolve(res))
+        .catch((err) => {
+            console.error(err)
+            reject(err)
+        })
     })
 }
