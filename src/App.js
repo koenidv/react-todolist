@@ -5,7 +5,7 @@ import { LogoutPage } from "./auth/LogoutPage"
 import { useState, useEffect } from "react"
 import { createTodo, getTodos } from "./faunaDb"
 import { Header, HeaderIcon, HeaderIconContainer, HeaderTitlePersonalized } from "./header/HeaderComponents"
-import { clearSession } from "./auth/faunaAuth"
+import { clearSession, getSecret } from "./auth/faunaAuth"
 import { TodosList } from "./todos/TodoList"
 import { CreateTodoButton, EditTodo } from "./todos/EditTodo"
 
@@ -25,6 +25,9 @@ function App() {
   // Use state to update the UI once todo entries are loaded
   const [entries, setEntries] = useState([])
   const navigate = useNavigate()
+
+  // Redirect to login if no access token is stored
+  if (getSecret() === null) navigate("/login")
 
   useEffect(() => {
     // Collect the user's entries from Fauna
