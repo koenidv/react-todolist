@@ -4,12 +4,16 @@ import { shortenYear } from "../baseComponents/Utilities"
 import { useState } from "react"
 import { BaseButtonAction, BaseButtonBorderless } from "../baseComponents/InputBaseComponents"
 import { EditTodo } from "./EditTodo"
-import { updateTodo, updateTodoChecked } from "../faunaDb"
+import { deleteTodo, updateTodo, updateTodoChecked } from "../faunaDb"
 
 export function TodosList({ todos, setTodos }) {
   let returnList = ""
   const [expanded, setExpanded] = useState()
   const [editing, setEditing] = useState()
+
+  /*
+   * Editing functions
+   */
 
   // Update an edited todo on Fauna and update it in the local list
   const saveEditTodo = (index, id, data) => {
@@ -41,6 +45,21 @@ export function TodosList({ todos, setTodos }) {
     setExpanded(undefined)
   }
 
+  // Delete a todo and remove it from the local list
+  const doDeleteTodo = (index, id) => {
+    deleteTodo(id)
+    .then((res) => {
+      // Remove the affected todo from todos list
+      todos.splice(index, 1)
+      setTodos([...todos])
+    })
+    .catch((err) => console.error("Something went wrong deleting a task"))
+  }
+
+  /*
+   * Map todos to components
+   */
+
   if (todos.length > 0) {
     // Map every todo to a JSX element
     returnList = todos.map((todo, i) => {
@@ -53,10 +72,13 @@ export function TodosList({ todos, setTodos }) {
       // Handle checking or unchecking a task
       const handleCheckTodo = ({ target }) => checkTodo(i, id, target.checked)
 
+      // Handle deleting a task
+      const handleDeleteTodo = () => doDeleteTodo(i, id)
+
       return (
         <div key={todo.ref.value.id}>
-          {expanded !== id && editing !== id && <TodoSummary data={todo.data} id={id} setExpanded={setExpanded} setEditing={setEditing} handleCheckTodo={handleCheckTodo} />}
-          {expanded === id && editing !== id && <TodoView data={todo.data} id={id} setExpanded={setExpanded} setEditing={setEditing} handleCheckTodo={handleCheckTodo} />}
+          {expanded !== id && editing !== id && <TodoSummary data={todo.data} id={id} setExpanded={setExpanded} setEditing={setEditing} handleCheckTodo={handleCheckTodo} handleDelete={handleDeleteTodo} />}
+          {expanded === id && editing !== id && <TodoView data={todo.data} id={id} setExpanded={setExpanded} setEditing={setEditing} handleCheckTodo={handleCheckTodo} handleDelete={handleDeleteTodo} />}
           {editing === id && <EditTodo current={todo.data} saveTodo={handleSaveEditTodo} />}
         </div>
       )
@@ -68,7 +90,7 @@ export function TodosList({ todos, setTodos }) {
 }
 
 // A one-line summary of a tasks' checked, title and due properties, and if it has a description
-function TodoSummary({ data, id, setExpanded, setEditing, handleCheckTodo }) {
+function TodoSummary({ data, id, setExpanded, setEditing, handleCheckTodo, handleDelete }) {
 
   // Compose the due date
   let dueText = ""
@@ -91,7 +113,7 @@ function TodoSummary({ data, id, setExpanded, setEditing, handleCheckTodo }) {
 
 
 // Display all information in a task
-function TodoView({ data, id, setExpanded, setEditing, handleCheckTodo }) {
+function TodoView({ data, id, setExpanded, setEditing, handleCheckTodo, handleDelete }) {
 
   // Compose info text: Due Date | Priority
   let infoText = ""
@@ -121,7 +143,7 @@ function TodoView({ data, id, setExpanded, setEditing, handleCheckTodo }) {
           {data.checked && <BaseButtonAction onClick={handleCheckTodo} checked={false} className="active" style={{ marginRight: "1rem" }}>Mark Incomplete</BaseButtonAction>}
           {!data.checked && <BaseButtonAction onClick={handleCheckTodo} checked={true} className="active" style={{ marginRight: "1rem" }}>Mark Complete</BaseButtonAction>}
           <BaseButtonBorderless onClick={handleEdit} style={{ marginRight: "1rem" }}>Edit</BaseButtonBorderless>
-          <BaseButtonBorderless style={{ marginRight: "1rem" }}>Delete</BaseButtonBorderless>
+          <BaseButtonBorderless onClick={handleDelete} style={{ marginRight: "1rem" }}>Delete</BaseButtonBorderless>
           <BaseButtonBorderless onClick={handleCollapse} style={{ marginRight: "1rem" }}>Close</BaseButtonBorderless>
         </LineWrapper>
       </TodoBody>

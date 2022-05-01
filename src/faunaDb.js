@@ -123,3 +123,24 @@ export function updateTodoChecked(id, checked) {
             })
     })
 }
+
+
+// Deletes a todo using its id
+export function deleteTodo(id) {
+    return new Promise((resolve, reject) => {
+        // Check if a secret is saved in session storage, 
+        // reject if not
+        const secret = getSecret()
+        if (secret === null) reject({
+            name: "PermissionDenied",
+            message: "No access token provided"
+        })
+
+        fauna.query(q.Delete(q.Ref(q.Collection("todos"), id)), { secret: secret })
+            .then((res) => resolve(res))
+            .catch((err) => {
+                console.error(err)
+                reject(err)
+            })
+    })
+}
