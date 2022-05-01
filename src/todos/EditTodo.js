@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { createTodo } from "../faunaDb"
 import DatePicker from "react-date-picker/dist/entry.nostyle"
 import "./DatePickerStyle.scss"
+import { shortenYear } from "../baseComponents/Utilities"
 
 
 // Displays a button to show the EditTodo component to create a new task
@@ -39,10 +40,16 @@ export function EditTodo({ saveTodo, className }) {
 
     // Handles saving the task
     const handleSave = () => {
+        // If no title is specified, do nothing
+        if (title === "") return
+
         setSaveText("Saving…")
         if (priority === 0) setPriority(1)
+        // Convert the due date to string
+        const dueString = due ? due.getTime() : ""
+
         // Create Task on Fauna
-        createTodo(title, description, due.toString(), priority, false)
+        createTodo(title, description, dueString, priority, false)
             .then((task) => {
                 // Add to display list or update
                 saveTodo(task)
@@ -83,16 +90,8 @@ function CalendarButton({ date, setDate }) {
     const showCalendar = () => setCalendarVisible(true)
     const hideCalendar = () => setCalendarVisible(false)
 
-    // Removes "20" from years beginning with that (1999->1999, 2022->22)
-    const shortenYear = (year) => {
-        year = year.toString()
-        if (/20../.test(year)) return year.slice(-2)
-        else return year
-    }
-
-    // If no date is selected, prompt to pick one, else display itr
-    const buttonText = date === null
-        ? "Add a Due Date"
+    // If no date is selected, prompt to pick one, else display it
+    const buttonText = date === null ? "Add a Due Date"
         : `Due ${date.getDate()}.${date.getMonth()}.${shortenYear(date.getFullYear())}`
 
     return (<>
@@ -106,7 +105,7 @@ function CalendarButton({ date, setDate }) {
 function PrioritySelection({ priority, setPriority }) {
     return (
         <PrioritiesWrapper>
-            <TodoInfoText style={{marginRight: "1rem"}}>Priority</TodoInfoText>
+            <TodoInfoText style={{ marginRight: "1rem" }}>Priority</TodoInfoText>
             <SelectButton value={1} selected={priority} setSelected={setPriority} />
             <SelectButton value={2} selected={priority} setSelected={setPriority} />
             <SelectButton value={3} selected={priority} setSelected={setPriority} />

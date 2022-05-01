@@ -32,6 +32,7 @@ function App() {
     getTodos()
       .then((res) => {
         setEntries(res)
+        console.log(res)
       })
       .catch((err) => {
         if (err.name === "Unauthorized" || err.name === "PermissionDenied") {

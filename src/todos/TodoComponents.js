@@ -6,9 +6,38 @@ import { BaseButtonAction, BaseButtonBorderless, BaseInputBorderless, BaseTextAr
 export const TodoBox = styled.div`
     display: grid;
     grid-template-columns: [content] 2fr [props] 1fr;
-    border: 1px solid #ffffff;
     padding: 1rem;
-    margin: 0 2rem 1rem 2rem
+    margin: 0 2rem 1rem 2rem;
+    border: 1px solid #ffffff;
+`
+
+export const TodoBoxSummary = styled.div`
+    display: flex;
+    padding: 1rem;
+    margin: 0 2rem 1rem 2rem;
+    border-radius: 4px;
+    align-items: baseline;
+    transition: background-color 100ms ease-out;
+
+    &:hover {
+        background-color: #161616;
+    }
+
+    &.pr-2 {
+        background-color: #242424;
+
+        &:hover {
+            background-color: #2d2d2d;
+        }
+    }
+
+    &.pr-3 {
+        background-color: #35224f;
+        
+        &:hover {
+            background-color: #3f295f;
+        }
+    }
 `
 
 export const ContentArea = styled.div`
@@ -61,6 +90,8 @@ export const TodoTextArea = styled(BaseTextArea)`
     min-height: 6rem;
 `
 
+export const TodoCheckbox = styled.input
+
 // Buttons
 
 export const TodoButtonAction = styled(BaseButtonAction)`
@@ -93,4 +124,10 @@ export const TodoInfoText = styled.p`
     font-size: 1rem;
     display: block;
     margin: 0.25rem 0 0.25rem 0;
+`
+
+export const TodoTitleCompact = styled.h4`
+    color: #ffffff;
+    margin: 0;
+    padding: 0 0.75rem 0 1rem;
 `
