@@ -1,8 +1,8 @@
-import { TodoEditBox, TodoBoxSummary, TodoInfoText, TodoTitle, TodoTitleCompact, LineWrapper, TodoBox, TodoBody, TodoText } from "./TodoComponents"
+import { TodoBoxSummary, TodoInfoText, TodoTitle, TodoTitleCompact, LineWrapper, TodoBox, TodoBody, TodoText } from "./TodoComponents"
 import { Checkbox } from "pretty-checkbox-react"
 import { shortenYear } from "../baseComponents/Utilities"
 import { useState } from "react"
-import { BaseButton, BaseButtonAction, BaseButtonBorderless } from "../baseComponents/InputBaseComponents"
+import { BaseButtonAction, BaseButtonBorderless } from "../baseComponents/InputBaseComponents"
 import { EditTodo } from "./EditTodo"
 import { updateTodo } from "../faunaDb"
 
@@ -11,6 +11,7 @@ export function TodosList({ todos, setTodos }) {
   const [expanded, setExpanded] = useState()
   const [editing, setEditing] = useState()
 
+  // Update an edited todo on Fauna and update it in the local list
   const saveEditTodo = (index, id, data) => {
     // Update Task on Fauna
     updateTodo(id, data)
@@ -25,18 +26,36 @@ export function TodosList({ todos, setTodos }) {
       .catch((err) => data.setMessage("Please try again"))
   }
 
+  // Updates the checked status on Fauna and in the local list
+  const checkTodo = (index, id, checked) => {
+    todos[index].data.checked = checked
+    // Sort by not checked, checked
+    //todos.sort((a, b) => a.data.checked && b.data.checked ? 0 : a.data.checked ? 1 : -1 )
+    setTodos([...todos])
+    // Collapse all tasks
+    setExpanded(undefined)
+  }
+
   if (todos.length > 0) {
+    // Map every todo to a JSX element
     returnList = todos.map((todo, i) => {
       const id = todo.ref.value.id
 
+      // Handle saving an edited todo, 
+      // calls the function above with more parameters
       const handleSaveEditTodo = (data) => {
         saveEditTodo(i, id, data)
       }
 
+      // Handle checking or unchecking a task
+      const handleCheckTodo = ({ target }) => {
+        checkTodo(i, id, target.checked)
+      }
+
       return (
         <div key={todo.ref.value.id}>
-          {expanded !== id && editing !== id && <TodoSummary data={todo.data} id={id} setExpanded={setExpanded} setEditing={setEditing} />}
-          {expanded === id && editing !== id && <TodoView data={todo.data} id={id} setExpanded={setExpanded} setEditing={setEditing} />}
+          {expanded !== id && editing !== id && <TodoSummary data={todo.data} id={id} setExpanded={setExpanded} setEditing={setEditing} handleCheckTodo={handleCheckTodo} />}
+          {expanded === id && editing !== id && <TodoView data={todo.data} id={id} setExpanded={setExpanded} setEditing={setEditing} handleCheckTodo={handleCheckTodo} />}
           {editing === id && <EditTodo current={todo.data} saveTodo={handleSaveEditTodo} />}
         </div>
       )
@@ -48,7 +67,7 @@ export function TodosList({ todos, setTodos }) {
 }
 
 // A one-line summary of a tasks' checked, title and due properties, and if it has a description
-function TodoSummary({ data, id, setExpanded, setEditing }) {
+function TodoSummary({ data, id, setExpanded, setEditing, handleCheckTodo }) {
 
   // Compose the due date
   let dueText = ""
@@ -62,7 +81,7 @@ function TodoSummary({ data, id, setExpanded, setEditing }) {
 
   return (
     <TodoBoxSummary className={getPriorityClassName(data.priority)} onClick={handleExpand}>
-      <TodoCheckbox checked={data.checked} id={id} />
+      <TodoCheckbox checked={data.checked} handleChecked={handleCheckTodo} id={id} />
       <TodoTitleCompact>{data.title}</TodoTitleCompact>
       <TodoInfoText>{dueText}{data.descr && " 💬"}</TodoInfoText>
     </TodoBoxSummary>
@@ -71,7 +90,7 @@ function TodoSummary({ data, id, setExpanded, setEditing }) {
 
 
 // Display all information in a task
-function TodoView({ data, id, setExpanded, setEditing }) {
+function TodoView({ data, id, setExpanded, setEditing, handleCheckTodo }) {
 
   // Compose info text: Due Date | Priority
   let infoText = ""
@@ -91,14 +110,15 @@ function TodoView({ data, id, setExpanded, setEditing }) {
   return (
     <TodoBox className={getPriorityClassName(data.priority)}>
       <LineWrapper>
-        <TodoCheckbox checked={data.checked} id={id} />
+        <TodoCheckbox checked={data.checked} handleChecked={handleCheckTodo} id={id} />
         <TodoTitle>{data.title}</TodoTitle>
       </LineWrapper>
       <TodoBody>
         <TodoInfoText>{infoText}</TodoInfoText>
         <TodoText>{data.descr}</TodoText>
         <LineWrapper>
-          <BaseButtonAction className="active" style={{ marginRight: "1rem" }}>Mark Complete</BaseButtonAction>
+          {data.checked && <BaseButtonAction onClick={handleCheckTodo} checked={false} className="active" style={{ marginRight: "1rem" }}>Mark Incomplete</BaseButtonAction>}
+          {!data.checked && <BaseButtonAction onClick={handleCheckTodo} checked={true} className="active" style={{ marginRight: "1rem" }}>Mark Complete</BaseButtonAction>}
           <BaseButtonBorderless onClick={handleEdit} style={{ marginRight: "1rem" }}>Edit</BaseButtonBorderless>
           <BaseButtonBorderless style={{ marginRight: "1rem" }}>Delete</BaseButtonBorderless>
           <BaseButtonBorderless onClick={handleCollapse} style={{ marginRight: "1rem" }}>Close</BaseButtonBorderless>
@@ -109,10 +129,9 @@ function TodoView({ data, id, setExpanded, setEditing }) {
 }
 
 
-// A checkbox with task check/uncheck functionality
-function TodoCheckbox({ checked, id }) {
-
-  return <Checkbox bigger checked={checked} />
+// A controlled checkbox ;)
+function TodoCheckbox({ checked, handleChecked, id }) {
+  return <Checkbox bigger checked={checked} onChange={handleChecked} />
 }
 
 

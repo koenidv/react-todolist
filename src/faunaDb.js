@@ -81,7 +81,7 @@ export function updateTodo(id, { title, descr, due, priority, checked }) {
             name: "PermissionDenied",
             message: "No access token provided"
         })
-        console.log(priority)
+
         // Update the respective document with the new todo content
         // The database will not allow changing documents with a different owner
         // than the currently authenticated user or changing the owner
@@ -95,6 +95,27 @@ export function updateTodo(id, { title, descr, due, priority, checked }) {
                 checked: checked || false
             }
         }), { secret: secret })
+            .then((res) => resolve(res))
+            .catch((err) => {
+                console.error(err)
+                reject(err)
+            })
+    })
+}
+
+// Updates the checked attribute of an existing task using its id
+export function updateTodoChecked(id, checked) {
+    return new Promise((resolve, reject) => {
+        // Check if a secret is saved in session storage, 
+        // reject if not
+        const secret = getSecret()
+        if (secret === null) reject({
+            name: "PermissionDenied",
+            message: "No access token provided"
+        })
+
+        fauna.query(q.Update(
+            q.Ref(q.Collection("todos"), id), { data: { checked: checked } }), { secret: secret })
             .then((res) => resolve(res))
             .catch((err) => {
                 console.error(err)
