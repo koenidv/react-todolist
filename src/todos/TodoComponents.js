@@ -1,14 +1,31 @@
+import { Checkbox } from "pretty-checkbox-react"
 import styled from "styled-components"
 import { BaseButtonAction, BaseButtonBorderless, BaseInputBorderless, BaseTextArea } from "../baseComponents/InputBaseComponents"
 
 // Containers
 
-export const TodoBox = styled.div`
+export const TodoEditBox = styled.div`
     display: grid;
     grid-template-columns: [content] 2fr [props] 1fr;
     padding: 1rem;
     margin: 0 2rem 1rem 2rem;
     border: 1px solid #ffffff;
+`
+
+export const TodoBox = styled.div`
+    padding: 1rem;
+    margin: 0 2rem 1rem 2rem;
+    border: 1px solid #ffffff;
+    
+    &.pr-2 {
+        background-color: #242424;
+        border: none;
+    }
+    
+    &.pr-3 {
+        background-color: #35224f;
+        border: none;
+    }
 `
 
 export const TodoBoxSummary = styled.div`
@@ -55,15 +72,25 @@ export const PropertiesArea = styled.div`
     justify-content: space-between;
 `
 
+export const TodoBody = styled.div`
+    margin-left: 2rem;
+`
+
 export const PrioritiesWrapper = styled.div`
     display: flex;
     align-items: baseline;
     margin: 0.25rem 0rem 0 1rem;
-
+    
     >* {
         margin-left: 0.5rem;
         margin-right: 0.5rem;
     }
+`
+
+export const LineWrapper = styled.div`
+    display: flex;
+    width: 100%;
+    align-items: baseline;
 `
 
 // Inputs
@@ -90,7 +117,9 @@ export const TodoTextArea = styled(BaseTextArea)`
     min-height: 6rem;
 `
 
-export const TodoCheckbox = styled.input
+export const TodoCheckbox = styled(Checkbox)`
+    width: 1rem
+`
 
 // Buttons
 
@@ -130,4 +159,16 @@ export const TodoTitleCompact = styled.h4`
     color: #ffffff;
     margin: 0;
     padding: 0 0.75rem 0 1rem;
+`
+
+export const TodoTitle = styled.h2`
+    color: #ffffff;
+    margin: 0;
+    padding: 0 0.75rem;
+`
+
+export const TodoText = styled.p`
+    color: #ffffff;
+    margin-top: 1rem;
+    display: block;
 `

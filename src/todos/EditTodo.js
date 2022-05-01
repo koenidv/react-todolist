@@ -1,5 +1,5 @@
 import { BaseButton } from "../baseComponents/InputBaseComponents"
-import { ContentArea, PropertiesArea, TodoBox, TodoInputMain, TodoTextArea, TodoButtonAction, TodoButtonMainCreate, TodoButtonText, PrioritiesWrapper, TodoInfoText, TodoButtonToggle } from "./TodoComponents"
+import { ContentArea, PropertiesArea, TodoEditBox, TodoInputMain, TodoTextArea, TodoButtonAction, TodoButtonMainCreate, TodoButtonText, PrioritiesWrapper, TodoInfoText, TodoButtonToggle } from "./TodoComponents"
 import { useState, useEffect } from "react"
 import { createTodo } from "../faunaDb"
 import DatePicker from "react-date-picker/dist/entry.nostyle"
@@ -63,7 +63,7 @@ export function EditTodo({ saveTodo, className }) {
     const handleSetTitle = ({ target }) => setTitle(target.value)
 
     return (
-        <TodoBox className={className}>
+        <TodoEditBox className={className}>
             <ContentArea>
                 <TodoInputMain placeholder="Title" value={title} onChange={handleSetTitle} onKeyDown={handleKeyDown} />
                 <CollapsibleTextArea description={description} setDescription={setDiscription} onKeyDown={handleKeyDown} />
@@ -75,7 +75,7 @@ export function EditTodo({ saveTodo, className }) {
                 </div>
                 <TodoButtonAction onClick={handleSave} className={title !== "" ? "active" : ""}>{saveText}</TodoButtonAction>
             </PropertiesArea>
-        </TodoBox>
+        </TodoEditBox>
     )
 }
 
