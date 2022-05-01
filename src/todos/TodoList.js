@@ -4,7 +4,7 @@ import { shortenYear } from "../baseComponents/Utilities"
 import { useState } from "react"
 import { BaseButtonAction, BaseButtonBorderless } from "../baseComponents/InputBaseComponents"
 import { EditTodo } from "./EditTodo"
-import { updateTodo } from "../faunaDb"
+import { updateTodo, updateTodoChecked } from "../faunaDb"
 
 export function TodosList({ todos, setTodos }) {
   let returnList = ""
@@ -28,10 +28,15 @@ export function TodosList({ todos, setTodos }) {
 
   // Updates the checked status on Fauna and in the local list
   const checkTodo = (index, id, checked) => {
+    // Locally epdate checked property
     todos[index].data.checked = checked
     // Sort by not checked, checked
     //todos.sort((a, b) => a.data.checked && b.data.checked ? 0 : a.data.checked ? 1 : -1 )
+    //Save edited task, in a copied array to make React update the component
     setTodos([...todos])
+    // Mark the Task as checked on Fauna
+    updateTodoChecked(id, checked)
+      .catch((err) => console.error("Something went wrong trying to update a task"))
     // Collapse all tasks
     setExpanded(undefined)
   }
@@ -43,14 +48,10 @@ export function TodosList({ todos, setTodos }) {
 
       // Handle saving an edited todo, 
       // calls the function above with more parameters
-      const handleSaveEditTodo = (data) => {
-        saveEditTodo(i, id, data)
-      }
+      const handleSaveEditTodo = (data) => saveEditTodo(i, id, data)
 
       // Handle checking or unchecking a task
-      const handleCheckTodo = ({ target }) => {
-        checkTodo(i, id, target.checked)
-      }
+      const handleCheckTodo = ({ target }) => checkTodo(i, id, target.checked)
 
       return (
         <div key={todo.ref.value.id}>
