@@ -1,10 +1,12 @@
-import { TodoBoxSummary, TodoInfoText, TodoTitle, TodoTitleCompact, LineWrapper, TodoBox, TodoBody, TodoText } from "./TodoComponents"
+import { TodoBoxSummary, TodoInfoText, TodoTitle, TodoTitleCompact, LineWrapper, TodoBox, TodoBody, TodoText, TodoSummaryActionsWrapper, TodoActionIcon } from "./TodoComponents"
 import { Checkbox } from "pretty-checkbox-react"
 import { shortenYear } from "../baseComponents/Utilities"
 import { useState } from "react"
 import { BaseButtonAction, BaseButtonBorderless } from "../baseComponents/InputBaseComponents"
 import { EditTodo } from "./EditTodo"
 import { deleteTodo, updateTodo, updateTodoChecked } from "../faunaDb"
+import imgEdit from "../assets/edit.svg"
+import imgDelete from "../assets/delete.svg"
 
 export function TodosList({ todos, setTodos }) {
   let returnList = ""
@@ -48,12 +50,12 @@ export function TodosList({ todos, setTodos }) {
   // Delete a todo and remove it from the local list
   const doDeleteTodo = (index, id) => {
     deleteTodo(id)
-    .then((res) => {
-      // Remove the affected todo from todos list
-      todos.splice(index, 1)
-      setTodos([...todos])
-    })
-    .catch((err) => console.error("Something went wrong deleting a task"))
+      .then((res) => {
+        // Remove the affected todo from todos list
+        todos.splice(index, 1)
+        setTodos([...todos])
+      })
+      .catch((err) => console.error("Something went wrong deleting a task"))
   }
 
   /*
@@ -101,12 +103,17 @@ function TodoSummary({ data, id, setExpanded, setEditing, handleCheckTodo, handl
   }
 
   const handleExpand = () => setExpanded(id)
+  const handleEdit = () => setEditing(id)
 
   return (
     <TodoBoxSummary className={getPriorityClassName(data.priority)} onClick={handleExpand}>
       <TodoCheckbox checked={data.checked} handleChecked={handleCheckTodo} id={id} />
       <TodoTitleCompact>{data.title}</TodoTitleCompact>
       <TodoInfoText>{dueText}{data.descr && " 💬"}</TodoInfoText>
+      <TodoSummaryActionsWrapper>
+        <TodoActionIcon src={imgEdit} onClick={handleEdit} />
+        <TodoActionIcon src={imgDelete} onClick={handleDelete} />
+      </TodoSummaryActionsWrapper>
     </TodoBoxSummary>
   )
 }

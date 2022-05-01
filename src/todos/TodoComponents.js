@@ -33,7 +33,7 @@ export const TodoBoxSummary = styled.div`
     padding: 1rem;
     margin: 0 2rem 1rem 2rem;
     border-radius: 4px;
-    align-items: baseline;
+    align-items: center;
     transition: background-color 100ms ease-out;
 
     &:hover {
@@ -93,6 +93,12 @@ export const LineWrapper = styled.div`
     align-items: baseline;
 `
 
+export const TodoSummaryActionsWrapper = styled.div`
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+`
+
 // Inputs
 
 export const TodoInputMain = styled(BaseInputBorderless)`
@@ -144,6 +150,24 @@ export const TodoButtonToggle = styled(BaseButtonBorderless)`
 export const TodoButtonMainCreate = styled(BaseButtonBorderless)`
     width: calc(100% - 4rem);
     margin: 0 2rem 1rem 2rem;
+`
+
+export const TodoActionIcon = styled.img`
+    height: 100%;
+    max-height: 1.5rem;
+    max-width: 2rem;
+    margin-left: 0.5rem;
+    opacity: 0;
+    transition: opacity 100ms ease-out;
+
+    ${TodoBoxSummary}:hover & {
+        opacity: 0.4;
+
+        &:hover {
+            opacity: 1;
+            cursor: pointer;
+        }
+    }
 `
 
 // Text
