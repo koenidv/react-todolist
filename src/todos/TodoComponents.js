@@ -26,6 +26,17 @@ export const PropertiesArea = styled.div`
     justify-content: space-between;
 `
 
+export const PrioritiesWrapper = styled.div`
+    display: flex;
+    align-items: baseline;
+    margin: 0.25rem 0rem 0 1rem;
+
+    >* {
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
+    }
+`
+
 // Inputs
 
 export const TodoInputMain = styled(BaseInputBorderless)`
@@ -62,6 +73,14 @@ export const TodoButtonText = styled(BaseButtonBorderless)`
     text-align: start;
 `
 
+export const TodoButtonToggle = styled(BaseButtonBorderless)`
+    width: 100%;
+
+    &.selected {
+        background-color: #6a459f;
+    }
+`
+
 export const TodoButtonMainCreate = styled(BaseButtonBorderless)`
     width: calc(100% - 4rem);
     margin: 0 2rem 1rem 2rem;
@@ -70,8 +89,8 @@ export const TodoButtonMainCreate = styled(BaseButtonBorderless)`
 // Text
 
 export const TodoInfoText = styled.p`
-    color: #aaaaaa;
-    font-size:0.9rem;
+    color: #ffffff;
+    font-size: 1rem;
     display: block;
     margin: 0.25rem 0 0.25rem 0;
 `
