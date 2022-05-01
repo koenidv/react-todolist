@@ -40,7 +40,7 @@ export function getTodos() {
 }
 
 // Creates an entry in the todos collection
-export function createTodo(content) {
+export function createTodo(title, description, due, priority, checked) {
     return new Promise((resolve, reject) => {
         // Check if a secret is saved in session storage, 
         // reject if not
@@ -55,7 +55,11 @@ export function createTodo(content) {
         // The database will not allow creating documents with a owner
         fauna.query(q.Create(q.Collection("todos"), {
             data: {
-                title: content,
+                title: title || "",
+                descr: description || "",
+                due: due || null,
+                priority: priority || 1,
+                checked: checked || false,
                 owner: q.Ref(q.Collection("users"), sessionStorage.getItem("userId"))
             },
         }), { secret: secret })

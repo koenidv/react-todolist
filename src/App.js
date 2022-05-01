@@ -7,6 +7,7 @@ import { createTodo, getTodos } from "./faunaDb"
 import { LogoutPage } from "./auth/LogoutPage"
 import { Header, HeaderIcon, HeaderIconContainer, HeaderTitlePersonalized } from "./header/HeaderComponents"
 import { clearSession } from "./auth/faunaAuth"
+import { CreateTodoForm, TodosList } from "./todos/TodoList"
 
 function RoutingWrapper() {
   return (
@@ -52,18 +53,10 @@ function App() {
           <HeaderIcon type="logout" navto="/logout" tooltip="Logout" />
         </HeaderIconContainer>
       </Header>
-      <BaseInput value={input} onChange={handleSetInput} onKeyDown={handleKeyDown} />
-      <TempListView entries={entries} />
+      <CreateTodoForm />
+      <TodosList todos={entries} />
     </div>
   );
-}
-
-function TempListView({ entries }) {
-  let list = ""
-  if (entries.length > 0) {
-    list = entries.map((entry) => <li key={entry.ref.value.id}>{entry.data.title}</li>)
-  }
-  return list
 }
 
 export default RoutingWrapper

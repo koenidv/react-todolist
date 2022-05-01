@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { BaseInput, BaseButton, BaseTitle } from "../BaseComponents/InputBaseComponents"
+import { BaseInput, BaseTitle, BaseButtonAction } from "../baseComponents/InputBaseComponents"
 
 export const AuthBoxWrapper = styled.div`
     display: flex;
@@ -25,24 +25,9 @@ export const AuthInput = styled(BaseInput)`
     text-align: center;
 `
 
-export const AuthButton = styled(BaseButton)`
+export const AuthButton = styled(BaseButtonAction)`
     width: calc(100% - 4rem);
     margin: 1rem 2rem 0 2rem;
-    text-align: center;
-    background-color: #101010;
-    border: none;
-
-    &:hover {
-        background-color: #161616;
-    }
-
-    &.active {
-        background-color: #6a459f;
-
-        &:hover {
-            background-color: #7857a8;
-        }
-    }
 `
 
 export const AuthInfoText = styled.p`
