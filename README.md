@@ -1,72 +1,23 @@
-# Getting Started with Create React App
+# SE_19 todolist
 
-`npm install`!
+Hey 👋 This is my assessment project for SE_19. 
+It is deployed at [todolist.koenidv.de](https://todolist.koenidv.de).
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Setting up your environment
 
-## Available Scripts
+1. Once you cloned the repo, make sure to run `npm install` to install all dependencies.
+2. Run `npm start` and a server will start on localhost. That's it!
+3. This project uses [Fauna](https://fauna.com), a serverless document database. A public key for this database is already included. If you want to use your own Fauna instance, that's easy.
 
-In the project directory, you can run:
+### Setting up a custom Fauna instance
 
-### `npm start`
+1. After creating a Fauna account and a database for this project, go to your Web Shell and run the 3 queries provided in [FaunaSetup.md](/FaunaSetup.md).
+2. Head to Security and create a new key using the new *client* role. Copy the generated key.
+3. Paste this key into the `PUBLIC_CLIENT_KEY` constant in [faunaAuth](/src/auth/faunaAuth.js). If you have selected a region other than *EU*, make sure to also update the domain used in the client creation.
+4. Done! You will use your own Fauna instance now.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### User Flow Chart
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+![User Flow Chart](UserFlowChart.svg)
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+[Click here to view the User Flow Chart on FlowMapp](https://app.flowmapp.com/share/de244f2c4ed86c7e059dcd9c84ec2305/userflow/187927/)

@@ -111,8 +111,8 @@ function TodoSummary({ data, id, setExpanded, setEditing, handleCheckTodo, handl
       <TodoTitleCompact>{data.title}</TodoTitleCompact>
       <TodoInfoText>{dueText}{data.descr && " 💬"}</TodoInfoText>
       <TodoSummaryActionsWrapper>
-        <TodoActionIcon src={imgEdit} onClick={handleEdit} />
-        <TodoActionIcon src={imgDelete} onClick={handleDelete} />
+        <TodoActionIcon src={imgEdit} onClick={handleEdit} title="Edit" />
+        <TodoActionIcon src={imgDelete} onClick={handleDelete} title="Delete" />
       </TodoSummaryActionsWrapper>
     </TodoBoxSummary>
   )
