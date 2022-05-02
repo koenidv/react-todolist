@@ -1,15 +1,7 @@
 import { query as q } from "faunadb"
 import { fauna, getSecret } from "./auth/faunaAuth"
 
-// Instantiate a FaunaDB client using the public client key
-// This key has read access to the users_by_email index and create access to the user collection
-// Once we have obtained an access token, we will use that
-/*export const fauna = new faunadb.Client({
-    secret: PUBLIC_CLIENT_KEY,
-    domain: "db.eu.fauna.com",
-    scheme: "https"
-})*/
-
+// Get all todos
 export function getTodos() {
     return new Promise((resolve, reject) => {
         // Check if a secret is saved in session storage, 
@@ -26,6 +18,37 @@ export function getTodos() {
         fauna.query(q.Map(q.Paginate(q.Match(
             q.Index("todos_by_owner"),
             q.Ref(q.Collection("users"), sessionStorage.getItem("userId")))),
+            q.Lambda(x => q.Get(x))),
+            { secret: secret }
+        )
+            .then((res) => {
+                resolve(res.data)
+            })
+            .catch((err) => {
+                reject(err)
+                console.error(err)
+            })
+    })
+}
+
+// Get Todos by whether they are checked or not
+export function getTodosByChecked(checked) {
+    return new Promise((resolve, reject) => {
+        // Check if a secret is saved in session storage, 
+        // reject if not
+        const secret = getSecret()
+        if (secret === null) reject({
+            name: "Unauthorized",
+            message: "No access token provided"
+        })
+
+        // Query all own documents using the todos_by_owner index
+        // The database will not allow access to documents with a different owner
+        // than the currently authenticated one
+        fauna.query(q.Map(q.Paginate(q.Match(
+            q.Index("todos_by_owner_and_checked"),
+            q.Ref(q.Collection("users"), sessionStorage.getItem("userId")),
+            checked)),
             q.Lambda(x => q.Get(x))),
             { secret: secret }
         )

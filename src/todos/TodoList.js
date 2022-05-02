@@ -8,7 +8,7 @@ import { deleteTodo, updateTodo, updateTodoChecked } from "../faunaDb"
 import imgEdit from "../assets/edit.svg"
 import imgDelete from "../assets/delete.svg"
 
-export function TodosList({ todos, setTodos }) {
+export function TodosList({ todos, setTodos, others, setOthers }) {
   let returnList = ""
   const [expanded, setExpanded] = useState()
   const [editing, setEditing] = useState()
@@ -34,12 +34,17 @@ export function TodosList({ todos, setTodos }) {
 
   // Updates the checked status on Fauna and in the local list
   const checkTodo = (index, id, checked) => {
-    // Locally epdate checked property
+    // Locally update checked property
     todos[index].data.checked = checked
-    // Sort by not checked, checked
-    //todos.sort((a, b) => a.data.checked && b.data.checked ? 0 : a.data.checked ? 1 : -1 )
-    //Save edited task, in a copied array to make React update the component
-    setTodos([...todos])
+    // If lists for un/checked are separated, move to other list
+    if (others && setOthers) {
+      setOthers([todos[index], ...others])
+      todos.splice(index, 1)
+      setTodos([...todos])
+    } else {
+      //Save edited task, in a copied array to make React update the component
+      setTodos([...todos])
+    }
     // Mark the Task as checked on Fauna
     updateTodoChecked(id, checked)
       .catch((err) => console.error("Something went wrong trying to update a task"))
@@ -87,11 +92,7 @@ export function TodosList({ todos, setTodos }) {
     })
   }
 
-  return (
-    <TodosWrapper>
-      {returnList}
-    </TodosWrapper>
-  )
+  return returnList
 
 }
 
