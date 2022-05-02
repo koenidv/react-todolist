@@ -16,7 +16,9 @@ It is deployed at [todolist.koenidv.de](https://todolist.koenidv.de).
 3. Paste this key into the `PUBLIC_CLIENT_KEY` constant in [faunaAuth](/src/auth/faunaAuth.js). If you have selected a region other than *EU*, make sure to also update the domain used in the client creation.
 4. Done! You will use your own Fauna instance now.
 
-### User Flow Chart
+## User Flow Chart
+
+The React app is hosted on [Netlify](https://netlify.com), and is using Netlify's CI to build the app from GitHub.
 
 ![User Flow Chart](UserFlowChart.svg)
 
