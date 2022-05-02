@@ -75,9 +75,9 @@ function RegisterWrapper() {
             <AuthBox>
                 <AuthTitle> Create an Account</AuthTitle>
                 <AuthInfoText className="warning">{message}</AuthInfoText>
-                <AuthInput placeholder="Choose a Username" value={email} onChange={handleSetEmail} />
-                <AuthInput placeholder="Choose a Password" value={password} onChange={handleSetPassword} />
-                <AuthInput placeholder="Repeat your Password" value={passwordConfirm}
+                <AuthInput type="name" placeholder="Choose a Username" value={email} onChange={handleSetEmail} />
+                <AuthInput type="password" placeholder="Choose a Password" value={password} onChange={handleSetPassword} />
+                <AuthInput type="password" placeholder="Repeat your Password" value={passwordConfirm}
                     onChange={handleSetPasswordConfirm} onKeyDown={handleKeyDown} />
                 <AuthButton onClick={handleCreateUser} className={buttonActive ? "active" : ""}>Create your Account</AuthButton>
                 <AuthInfoText>Already have an account? <a href="/login">Go to Login</a></AuthInfoText>

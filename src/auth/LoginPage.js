@@ -65,8 +65,8 @@ function LoginWrapper() {
             <AuthBox>
                 <AuthTitle> Welcome back!</AuthTitle>
                 <AuthInfoText className="warning">{message}</AuthInfoText>
-                <AuthInput placeholder="Your Username" value={email} onChange={handleSetEmail} />
-                <AuthInput placeholder="Your Password" value={password} onChange={handleSetPassword} onKeyDown={handleKeyDown} />
+                <AuthInput type="name" placeholder="Your Username" value={email} onChange={handleSetEmail} />
+                <AuthInput type="password" placeholder="Your Password" value={password} onChange={handleSetPassword} onKeyDown={handleKeyDown} />
                 <AuthButton onClick={handleLogin} className={buttonActive ? "active" : ""}>Login</AuthButton>
                 <AuthInfoText>Don't have an account yet? <a href="/register">Create one now!</a></AuthInfoText>
             </AuthBox>
