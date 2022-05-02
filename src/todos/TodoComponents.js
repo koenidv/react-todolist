@@ -37,7 +37,6 @@ export const TodoBox = styled.div`
 `
 
 export const TodoBoxSummary = styled.div`
-    display: flex;
     padding: 1rem;
     margin: 0 0.75rem 0.75rem 0.75rem;
     border-radius: 4px;
@@ -85,7 +84,7 @@ export const PropertiesArea = styled.div`
 `
 
 export const TodoBody = styled.div`
-    margin-left: 2rem;
+    margin-left: 2.25rem;
 `
 
 export const PrioritiesWrapper = styled.div`
@@ -102,7 +101,7 @@ export const PrioritiesWrapper = styled.div`
 export const LineWrapper = styled.div`
     display: flex;
     width: 100%;
-    align-items: baseline;
+    align-items: center;
 `
 
 export const TodoSummaryActionsWrapper = styled.div`

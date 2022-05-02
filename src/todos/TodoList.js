@@ -112,13 +112,18 @@ function TodoSummary({ data, id, setExpanded, setEditing, handleCheckTodo, handl
 
   return (
     <TodoBoxSummary className={getPriorityClassName(data.priority)} onClick={handleExpand}>
-      <TodoCheckbox checked={data.checked} handleChecked={handleCheckTodo} id={id} />
-      <TodoTitleCompact>{data.title}</TodoTitleCompact>
-      <TodoInfoText>{dueText}{data.descr && " 💬"}</TodoInfoText>
-      <TodoSummaryActionsWrapper>
-        <TodoActionIcon src={imgEdit} onClick={handleEdit} title="Edit" />
-        <TodoActionIcon src={imgDelete} onClick={handleDelete} title="Delete" />
-      </TodoSummaryActionsWrapper>
+      <LineWrapper>
+        <TodoCheckbox checked={data.checked} handleChecked={handleCheckTodo} id={id} />
+        <TodoTitleCompact>{data.title}</TodoTitleCompact>
+        <TodoInfoText>{dueText}</TodoInfoText>
+        <TodoSummaryActionsWrapper>
+          <TodoActionIcon src={imgEdit} onClick={handleEdit} title="Edit" />
+          <TodoActionIcon src={imgDelete} onClick={handleDelete} title="Delete" />
+        </TodoSummaryActionsWrapper>
+      </LineWrapper>
+      <TodoBody>
+        <TodoInfoText>{data.descr}</TodoInfoText>
+      </TodoBody>
     </TodoBoxSummary>
   )
 }
