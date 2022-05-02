@@ -4,6 +4,12 @@ import { BaseButtonAction, BaseButtonBorderless, BaseInputBorderless, BaseTextAr
 
 // Containers
 
+export const TodosWrapper = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0 1rem;
+`
+
 export const TodoEditBox = styled.div`
     display: grid;
     grid-template-columns: [content] 2fr [props] 1fr;
@@ -14,7 +20,7 @@ export const TodoEditBox = styled.div`
 
 export const TodoBox = styled.div`
     padding: 1rem;
-    margin: 0 2rem 1rem 2rem;
+    margin: 0 1rem 1rem 1rem;
     border: 1px solid #ffffff;
     
     &.pr-2 {
@@ -31,7 +37,7 @@ export const TodoBox = styled.div`
 export const TodoBoxSummary = styled.div`
     display: flex;
     padding: 1rem;
-    margin: 0 2rem 1rem 2rem;
+    margin: 0 1rem 1rem 1rem;
     border-radius: 4px;
     align-items: center;
     transition: background-color 100ms ease-out;

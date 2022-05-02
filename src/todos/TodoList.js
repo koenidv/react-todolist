@@ -1,4 +1,4 @@
-import { TodoBoxSummary, TodoInfoText, TodoTitle, TodoTitleCompact, LineWrapper, TodoBox, TodoBody, TodoText, TodoSummaryActionsWrapper, TodoActionIcon } from "./TodoComponents"
+import { TodoBoxSummary, TodoInfoText, TodoTitle, TodoTitleCompact, LineWrapper, TodoBox, TodoBody, TodoText, TodoSummaryActionsWrapper, TodoActionIcon, TodosWrapper } from "./TodoComponents"
 import { Checkbox } from "pretty-checkbox-react"
 import { shortenYear } from "../baseComponents/Utilities"
 import { useState } from "react"
@@ -87,7 +87,11 @@ export function TodosList({ todos, setTodos }) {
     })
   }
 
-  return returnList
+  return (
+    <TodosWrapper>
+      {returnList}
+    </TodosWrapper>
+  )
 
 }
 
