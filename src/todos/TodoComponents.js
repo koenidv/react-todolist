@@ -20,8 +20,10 @@ export const TodoEditBox = styled.div`
 
 export const TodoBox = styled.div`
     padding: 1rem;
-    margin: 0 1rem 1rem 1rem;
-    border: 1px solid #ffffff;
+    margin: 0 0.75rem 0.75rem 0.75rem;
+    border: 1px solid #242424;
+    border-radius: 4px;
+    box-sizing: border-box;
     
     &.pr-2 {
         background-color: #242424;
@@ -37,8 +39,10 @@ export const TodoBox = styled.div`
 export const TodoBoxSummary = styled.div`
     display: flex;
     padding: 1rem;
-    margin: 0 1rem 1rem 1rem;
+    margin: 0 0.75rem 0.75rem 0.75rem;
     border-radius: 4px;
+    border: 1px solid #242424;
+    box-sizing: border-box;
     align-items: center;
     transition: background-color 100ms ease-out;
 
@@ -48,6 +52,7 @@ export const TodoBoxSummary = styled.div`
 
     &.pr-2 {
         background-color: #242424;
+        border: none;
 
         &:hover {
             background-color: #2d2d2d;
@@ -56,7 +61,8 @@ export const TodoBoxSummary = styled.div`
 
     &.pr-3 {
         background-color: #35224f;
-        
+        border: none;
+
         &:hover {
             background-color: #3f295f;
         }

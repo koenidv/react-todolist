@@ -60,7 +60,7 @@ export function EditTodo({ current, saveTodo, className, cancelCallback }) {
         // If no title is specified, do nothing
         if (title === "") {
             if (cancelCallback) cancelCallback()
-            else return
+            return
         }
 
         setSaveText("Saving…")
