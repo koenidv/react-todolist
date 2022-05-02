@@ -8,6 +8,10 @@ export const TodosWrapper = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
     padding: 0 1rem;
+
+    @media screen and (max-width: 56rem) {
+        grid-template-columns: 1fr;
+    }
 `
 
 export const TodoEditBox = styled.div`
