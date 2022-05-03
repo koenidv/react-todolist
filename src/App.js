@@ -8,7 +8,8 @@ import { Header, HeaderIcon, HeaderIconContainer, HeaderTitlePersonalized } from
 import { clearSession, getSecret } from "./auth/faunaAuth"
 import { TodosList } from "./todos/TodoList"
 import { CreateTodoButton } from "./todos/EditTodo"
-import { TodosWrapper } from "./todos/TodoComponents"
+import { TodoPlaceHolderInfoText, TodosWrapper } from "./todos/TodoComponents"
+import { BaseInfoText } from "./baseComponents/InputBaseComponents"
 
 function RoutingWrapper() {
   return (
@@ -67,6 +68,7 @@ function App() {
           <TodosList todos={entriesUnchecked} setTodos={setEntriesUnchecked} others={entriesChecked} setOthers={setEntriesChecked} />
         </div>
         <div id="checked">
+          {entriesChecked.length === 0 && entriesUnchecked.length !== 0 && <TodoPlaceHolderInfoText>Your completed tasks will show up here</TodoPlaceHolderInfoText>}
           <TodosList todos={entriesChecked} setTodos={setEntriesChecked} others={entriesUnchecked} setOthers={setEntriesUnchecked} />
         </div>
       </TodosWrapper>

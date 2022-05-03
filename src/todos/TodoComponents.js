@@ -298,6 +298,12 @@ export const TodoInfoText = styled(BaseInfoText)`
     margin: 0.25rem 0 0.25rem 0;
 `
 
+export const TodoPlaceHolderInfoText = styled(BaseInfoText)`
+    width: 100%;
+    color: #aaaaaa;
+    text-align: center;
+`
+
 export const TodoTitleCompact = styled.h4`
     color: #ffffff;
     margin: 0;

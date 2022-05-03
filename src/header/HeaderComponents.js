@@ -102,8 +102,8 @@ export function HeaderIcon({ type, navto, tooltip }) {
     }
 
     return (
-        <HeaderIconButton>
-            <HeaderBaseIcon src={icon} onClick={handleClick} title={tooltip} />
+        <HeaderIconButton onClick={handleClick}>
+            <HeaderBaseIcon src={icon} title={tooltip} />
             <HeaderIconButtonText>{tooltip}</HeaderIconButtonText>
         </HeaderIconButton>
     )
