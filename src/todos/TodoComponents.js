@@ -1,6 +1,6 @@
 import { Checkbox } from "pretty-checkbox-react"
 import styled from "styled-components"
-import { BaseButtonAction, BaseButtonBorderless, BaseInputBorderless, BaseTextArea } from "../baseComponents/InputBaseComponents"
+import { BaseButton, BaseButtonAction, BaseButtonBorderless, BaseInputBorderless, BaseTextArea } from "../baseComponents/InputBaseComponents"
 
 // Containers
 
@@ -12,15 +12,35 @@ export const TodosWrapper = styled.div`
     @media screen and (max-width: 56rem) {
         grid-template-columns: 1fr;
     }
+
+    @media screen and (max-width: 40rem) {
+        padding: 0;
+    }
 `
 
 export const TodoEditBox = styled.div`
     display: grid;
     grid-template-columns: [content] 2fr [props] 1fr;
     padding: 1rem;
-    margin: 0 2rem 1rem 2rem;
+    margin: 0 0.75rem 0.75rem 0.75rem;
     border: 1px solid #aeaeae;
     border-radius: 4px;
+    box-sizing: border-box;
+
+    &.outside {
+        margin: 0 1.75rem 1rem 1.75rem;
+    }
+
+    @media screen and (max-width: 56rem) {
+        grid-template-areas: "content" "props";
+        grid-template-columns: 1fr;
+    }
+
+    @media screen and (max-width: 40rem) {
+        &.outside {
+            margin: 0 0.75rem 0.75rem 0.75rem;
+        }
+    }
 `
 
 export const TodoBox = styled.div`
@@ -76,6 +96,10 @@ export const TodoBoxSummary = styled.div`
 export const ContentArea = styled.div`
     grid-area: content;
     padding-right: 1rem;
+
+    @media screen and (max-width: 56rem) {
+        padding: 0mm;
+    }
 `
 
 export const PropertiesArea = styled.div`
@@ -86,6 +110,23 @@ export const PropertiesArea = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    box-sizing: border-box;
+
+    @media screen and (max-width: 56rem) {
+        border-left: none;
+        border-top: 1px solid #606060;
+        padding: 1rem 0 1rem 0;
+        margin: 1rem 0 0 0;
+    }
+`
+
+export const PropertiesWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+
+    @media screen and (max-width: 56rem) and (min-width: 40rem) {
+        flex-direction: row;
+    }
 `
 
 export const TodoBody = styled.div`
@@ -153,6 +194,10 @@ export const TodoCheckbox = styled(Checkbox)`
 export const TodoButtonAction = styled(BaseButtonAction)`
     width: 100%;
     margin-top: 1rem;
+
+    @media screen and (max-width: 56rem) {
+        margin-top: 0;
+    }
 `
 
 export const TodoButtonTextAction = styled(BaseButtonBorderless)`
@@ -178,6 +223,18 @@ export const TodoButtonToggle = styled(BaseButtonBorderless)`
 
     &.selected {
         background-color: #6a459f;
+    }
+`
+
+export const TodoDescriptionButton = styled(BaseButton)`
+    @media screen and (max-width: 56rem) {
+        border: none;
+        &:hover {
+            background-color: #242424;
+        }
+    }
+    @media screen and (max-width: 40rem) {
+        width: 100%
     }
 `
 

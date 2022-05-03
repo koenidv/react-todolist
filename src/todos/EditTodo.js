@@ -1,5 +1,5 @@
 import { BaseButton } from "../baseComponents/InputBaseComponents"
-import { ContentArea, PropertiesArea, TodoEditBox, TodoInputMain, TodoTextArea, TodoButtonAction, TodoButtonMainCreate, TodoButtonTextAction, PrioritiesWrapper, TodoInfoText, TodoButtonToggle } from "./TodoComponents"
+import { ContentArea, PropertiesArea, TodoEditBox, TodoInputMain, TodoTextArea, TodoButtonAction, TodoButtonMainCreate, TodoButtonTextAction, PrioritiesWrapper, TodoInfoText, TodoButtonToggle, PropertiesWrapper, TodoDescriptionButton } from "./TodoComponents"
 import { useState, useEffect } from "react"
 import { createTodo } from "../faunaDb"
 import DatePicker from "react-date-picker/dist/entry.nostyle"
@@ -37,7 +37,7 @@ export function CreateTodoButton({ entries, setEntries, expanded }) {
 
     return (<>
         {!createVisible && <TodoButtonMainCreate onClick={handleShowCreate} >Create a Task</TodoButtonMainCreate>}
-        {createVisible && <EditTodo saveTodo={handleCreateTask} cancelCallback={handleHideCreate} />}
+        {createVisible && <EditTodo className="outside" saveTodo={handleCreateTask} cancelCallback={handleHideCreate} />}
     </>)
 }
 
@@ -91,10 +91,10 @@ export function EditTodo({ current, saveTodo, className, cancelCallback }) {
                 <CollapsibleTextArea description={description} setDescription={setDiscription} onKeyDown={handleKeyDown} />
             </ContentArea>
             <PropertiesArea>
-                <div>
+                <PropertiesWrapper>
                     <CalendarButton date={due} setDate={setDue} />
                     <PrioritySelection priority={priority} setPriority={setPriority} />
-                </div>
+                </PropertiesWrapper>
                 <TodoButtonAction onClick={handleSave} className={title !== "" ? "active" : cancelCallback ? "secondary" : ""}>{saveText}</TodoButtonAction>
             </PropertiesArea>
         </TodoEditBox>
@@ -157,7 +157,7 @@ function CollapsibleTextArea({ description, setDescription, onKeyDown }) {
     const handleShowDescription = () => setDiscriptionVisible(true)
 
     return (<>
-        {!descriptionVisible && <BaseButton onClick={handleShowDescription} >Add a Description</BaseButton>}
+        {!descriptionVisible && <TodoDescriptionButton onClick={handleShowDescription} >Add a Description</TodoDescriptionButton>}
         {descriptionVisible && <TodoTextArea placeholder="Task Description" value={description}
             onChange={handleSetDescription} className={descriptionVisible ? "" : "hidden"}
             onKeyDown={onKeyDown} />}
