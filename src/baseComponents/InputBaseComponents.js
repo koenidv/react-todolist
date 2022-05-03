@@ -18,12 +18,18 @@ export const BaseInputBorderless = styled.input`
 
 export const BaseInput = styled(BaseInputBorderless)`
     border: 1px solid #aaaaaa;
+    border-radius: 4px;
     font-family: "Space Mono";
-    transition: border-radius 100ms, border-color 100ms;
+    transition: border-radius 100ms, border-color 100ms, background-color 100ms;
 
-    &:hover, &:active, &:focus {
-        border-radius: 4px;
-        border-color: #ffffff;
+    &:hover {
+        border-color: #606060;
+        background-color: #121212;
+    }
+    
+    &:active, &:focus {
+        border-color: #242424;
+        background-color: #242424;
     }
 `
 
@@ -32,7 +38,7 @@ export const BaseTextArea = styled.textarea`
     padding: 1rem;
     font-size: 1rem;
     color: #ffffff;
-    border-radius: 0;
+    border-radius: 4px;
     border: none;
     box-sizing: border-box;
     border: 1px solid #aaaaaa;

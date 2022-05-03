@@ -1,4 +1,4 @@
-import { TodoBoxSummary, TodoInfoText, TodoTitle, TodoTitleCompact, LineWrapper, TodoBox, TodoBody, TodoText, TodoSummaryActionsWrapper, TodoActionIcon, TodosWrapper } from "./TodoComponents"
+import { TodoBoxSummary, TodoInfoText, TodoTitle, TodoTitleCompact, LineWrapper, TodoBox, TodoBody, TodoText, TodoSummaryActionsWrapper, TodoActionIcon, TodosWrapper, TodoButtonText } from "./TodoComponents"
 import { Checkbox } from "pretty-checkbox-react"
 import { shortenYear } from "../baseComponents/Utilities"
 import { useState } from "react"
@@ -159,9 +159,9 @@ function TodoView({ data, id, setExpanded, setEditing, handleCheckTodo, handleDe
         <LineWrapper>
           {data.checked && <BaseButtonAction onClick={handleCheckTodo} checked={false} className="active" style={{ marginRight: "1rem" }}>Mark Incomplete</BaseButtonAction>}
           {!data.checked && <BaseButtonAction onClick={handleCheckTodo} checked={true} className="active" style={{ marginRight: "1rem" }}>Mark Complete</BaseButtonAction>}
-          <BaseButtonBorderless onClick={handleEdit} style={{ marginRight: "1rem" }}>Edit</BaseButtonBorderless>
-          <BaseButtonBorderless onClick={handleDelete} style={{ marginRight: "1rem" }}>Delete</BaseButtonBorderless>
-          <BaseButtonBorderless onClick={handleCollapse} style={{ marginRight: "1rem" }}>Cancel</BaseButtonBorderless>
+          <TodoButtonText onClick={handleEdit} style={{ marginRight: "1rem" }}>Edit</TodoButtonText>
+          <TodoButtonText onClick={handleDelete} style={{ marginRight: "1rem" }}>Delete</TodoButtonText>
+          <TodoButtonText onClick={handleCollapse} style={{ marginRight: "1rem" }}>Cancel</TodoButtonText>
         </LineWrapper>
       </TodoBody>
     </TodoBox>

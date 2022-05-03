@@ -1,5 +1,5 @@
 import { BaseButton } from "../baseComponents/InputBaseComponents"
-import { ContentArea, PropertiesArea, TodoEditBox, TodoInputMain, TodoTextArea, TodoButtonAction, TodoButtonMainCreate, TodoButtonText, PrioritiesWrapper, TodoInfoText, TodoButtonToggle } from "./TodoComponents"
+import { ContentArea, PropertiesArea, TodoEditBox, TodoInputMain, TodoTextArea, TodoButtonAction, TodoButtonMainCreate, TodoButtonTextAction, PrioritiesWrapper, TodoInfoText, TodoButtonToggle } from "./TodoComponents"
 import { useState, useEffect } from "react"
 import { createTodo } from "../faunaDb"
 import DatePicker from "react-date-picker/dist/entry.nostyle"
@@ -117,7 +117,7 @@ function CalendarButton({ date, setDate }) {
         : `Due ${date.getDate()}.${date.getMonth()}.${shortenYear(date.getFullYear())}`
 
     return (<>
-        <TodoButtonText onClick={showCalendar} >{buttonText}</TodoButtonText>
+        <TodoButtonTextAction onClick={showCalendar} >{buttonText}</TodoButtonTextAction>
         <DatePicker onChange={handleChange} value={date} isOpen={calendarVisible} onCalendarClose={hideCalendar} minDate={today} />
     </>)
 }

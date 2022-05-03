@@ -19,7 +19,8 @@ export const TodoEditBox = styled.div`
     grid-template-columns: [content] 2fr [props] 1fr;
     padding: 1rem;
     margin: 0 2rem 1rem 2rem;
-    border: 1px solid #ffffff;
+    border: 1px solid #aeaeae;
+    border-radius: 4px;
 `
 
 export const TodoBox = styled.div`
@@ -80,7 +81,7 @@ export const ContentArea = styled.div`
 export const PropertiesArea = styled.div`
     grid-area: props;
     height: 100%;
-    border-left: 1px solid #ffffff;
+    border-left: 1px solid #606060;
     padding-left: 1rem;
     display: flex;
     flex-direction: column;
@@ -149,9 +150,22 @@ export const TodoButtonAction = styled(BaseButtonAction)`
     margin-top: 1rem;
 `
 
-export const TodoButtonText = styled(BaseButtonBorderless)`
+export const TodoButtonTextAction = styled(BaseButtonBorderless)`
     width: 100%;
     text-align: start;
+`
+
+export const TodoButtonText = styled(BaseButtonBorderless)`
+    ${TodoBox}.pr-2 & {
+        &:hover {
+            background-color: #161616;
+        }
+    }
+    ${TodoBox}.pr-3 & {
+        &:hover {
+            background-color: #281c3e;
+        }
+    }
 `
 
 export const TodoButtonToggle = styled(BaseButtonBorderless)`
