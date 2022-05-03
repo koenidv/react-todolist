@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { useState } from "react"
 import { useEffect } from "react"
 import imgLogout from "../assets/logout.svg"
+import { BaseButtonBorderless, BaseInfoText } from "../baseComponents/InputBaseComponents"
 
 export const Header = styled.header`
     width: calc(100vw - 2rem);
@@ -22,25 +23,33 @@ export const Header = styled.header`
 
 const HeaderBaseTitle = styled.h2`
     margin: 0;
+    font-size: 1.5rem;
     transition: color 100ms ease-out;
     user-select: none;
 `
 
-const HeaderBaseIcon = styled.img`
+const HeaderIconButton = styled(BaseButtonBorderless)`
+    display: flex;
     height: 100%;
-    max-width: 2rem;
-    transition: filter 100ms ease-out;
+    padding: 0.25rem;
+    align-items: center;
+`
 
-    &:hover {
-        // This "color filter" transforms the icon color to #6a459f
-        // Created using this Codepen: https://codepen.io/sosuke/pen/Pjoqqp
-        filter: brightness(0) saturate(100%) invert(30%) sepia(52%) saturate(1276%) hue-rotate(233deg) brightness(83%) contrast(84%);
-        cursor: pointer;
+const HeaderIconButtonText = styled(BaseInfoText)`
+    margin-left: 0.5rem;
+
+    @media screen and (max-width: 40rem) {
+        display: none;
     }
 `
 
-export const HeaderIconContainer = styled.div`
+const HeaderBaseIcon = styled.img`
     height: 1.5rem;
+    max-width: 2rem;
+`
+
+export const HeaderIconContainer = styled.div`
+    height: 2.25rem;
 `
 
 export function HeaderTitlePersonalized() {
@@ -84,5 +93,10 @@ export function HeaderIcon({ type, navto, tooltip }) {
         throw new Error("Invalid Type was specified for HeaderIcon")
     }
 
-    return <HeaderBaseIcon src={imgLogout} onClick={handleClick} title={tooltip} />
+    return (
+        <HeaderIconButton>
+            <HeaderBaseIcon src={imgLogout} onClick={handleClick} title={tooltip} />
+            <HeaderIconButtonText>{tooltip}</HeaderIconButtonText>
+        </HeaderIconButton>
+    )
 }

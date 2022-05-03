@@ -2,6 +2,11 @@ import styled from "styled-components"
 
 export const BaseTitle = styled.h1``
 
+export const BaseInfoText = styled.p`
+    color: #ffffff;
+    font-size: 1rem;
+`
+
 export const BaseInputBorderless = styled.input`
     background-color: transparent;
     padding: 1rem;

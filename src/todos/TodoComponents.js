@@ -1,6 +1,6 @@
 import { Checkbox } from "pretty-checkbox-react"
 import styled from "styled-components"
-import { BaseButton, BaseButtonAction, BaseButtonBorderless, BaseInputBorderless, BaseTextArea } from "../baseComponents/InputBaseComponents"
+import { BaseButton, BaseButtonAction, BaseButtonBorderless, BaseInfoText, BaseInputBorderless, BaseTextArea } from "../baseComponents/InputBaseComponents"
 
 // Containers
 
@@ -289,9 +289,7 @@ export const TodoActionIcon = styled.img`
 
 // Text
 
-export const TodoInfoText = styled.p`
-    color: #ffffff;
-    font-size: 1rem;
+export const TodoInfoText = styled(BaseInfoText)`
     display: block;
     margin: 0.25rem 0 0.25rem 0;
 `
