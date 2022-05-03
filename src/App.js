@@ -57,6 +57,7 @@ function App() {
       <Header>
         <HeaderTitlePersonalized />
         <HeaderIconContainer>
+          <HeaderIcon type="user" navto="/user" tooltip="Account" />
           <HeaderIcon type="logout" navto="/logout" tooltip="Logout" />
         </HeaderIconContainer>
       </Header>

@@ -1,9 +1,9 @@
-import { useNavigate } from "react-router-dom"
 import styled from "styled-components"
-import { useState } from "react"
-import { useEffect } from "react"
-import imgLogout from "../assets/logout.svg"
+import { useNavigate } from "react-router-dom"
+import { useState, useEffect } from "react"
 import { BaseButtonBorderless, BaseInfoText } from "../baseComponents/InputBaseComponents"
+import imgLogout from "../assets/logout.svg"
+import imgUser from "../assets/user.svg"
 
 export const Header = styled.header`
     width: calc(100vw - 2rem);
@@ -49,7 +49,12 @@ const HeaderBaseIcon = styled.img`
 `
 
 export const HeaderIconContainer = styled.div`
+    display: flex;
     height: 2.25rem;
+
+    >* {
+        margin-left: 0.5rem;
+    }
 `
 
 export function HeaderTitlePersonalized() {
@@ -80,6 +85,9 @@ export function HeaderIcon({ type, navto, tooltip }) {
         case "logout":
             icon = imgLogout
             break
+        case "user":
+            icon = imgUser
+            break
         default:
             break
     }
@@ -95,7 +103,7 @@ export function HeaderIcon({ type, navto, tooltip }) {
 
     return (
         <HeaderIconButton>
-            <HeaderBaseIcon src={imgLogout} onClick={handleClick} title={tooltip} />
+            <HeaderBaseIcon src={icon} onClick={handleClick} title={tooltip} />
             <HeaderIconButtonText>{tooltip}</HeaderIconButtonText>
         </HeaderIconButton>
     )
