@@ -9,13 +9,18 @@ export const AuthBoxWrapper = styled.div`
 `
 
 export const AuthBox = styled.div`
-    border: 1px solid #ffffff;
+    border: 1px solid #aeaeae;
+    border-radius: 4px;
     max-width: 48rem;
+
+    @media screen and (max-width: 40rem) {
+        border: none;
+    }
 `
 
 export const AuthTitle = styled(BaseTitle)`
-    width: 100%;
-    margin: 4rem 0 4rem 0;
+    width: calc(100% - 4rem);
+    margin: 4rem 2rem;
     text-align: center;
 `
 
