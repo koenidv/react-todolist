@@ -1,4 +1,4 @@
-import { TodoBoxSummary, TodoInfoText, TodoTitle, TodoTitleCompact, LineWrapper, TodoBox, TodoBody, TodoText, TodoSummaryActionsWrapper, TodoActionIcon, TodosWrapper, TodoButtonText } from "./TodoComponents"
+import { TodoBoxSummary, TodoInfoText, TodoTitle, TodoTitleCompact, LineWrapper, TodoBox, TodoBody, TodoText, TodoSummaryActionsWrapper, TodoActionIcon, TodosWrapper, TodoButtonText, TodoActionsWrapper, TodoButtonActionInline } from "./TodoComponents"
 import { Checkbox } from "pretty-checkbox-react"
 import { shortenYear } from "../baseComponents/Utilities"
 import { useState } from "react"
@@ -156,14 +156,14 @@ function TodoView({ data, id, setExpanded, setEditing, handleCheckTodo, handleDe
       <TodoBody>
         <TodoInfoText>{infoText}</TodoInfoText>
         <TodoText>{data.descr}</TodoText>
-        <LineWrapper>
-          {data.checked && <BaseButtonAction onClick={handleCheckTodo} checked={false} className="active" style={{ marginRight: "1rem" }}>Mark Incomplete</BaseButtonAction>}
-          {!data.checked && <BaseButtonAction onClick={handleCheckTodo} checked={true} className="active" style={{ marginRight: "1rem" }}>Mark Complete</BaseButtonAction>}
-          <TodoButtonText onClick={handleEdit} style={{ marginRight: "1rem" }}>Edit</TodoButtonText>
-          <TodoButtonText onClick={handleDelete} style={{ marginRight: "1rem" }}>Delete</TodoButtonText>
-          <TodoButtonText onClick={handleCollapse} style={{ marginRight: "1rem" }}>Cancel</TodoButtonText>
-        </LineWrapper>
       </TodoBody>
+      <TodoActionsWrapper>
+        {data.checked && <TodoButtonActionInline onClick={handleCheckTodo} checked={false} className="active">Reopen</TodoButtonActionInline>}
+        {!data.checked && <TodoButtonActionInline onClick={handleCheckTodo} checked={true} className="active">Complete</TodoButtonActionInline>}
+        <TodoButtonText onClick={handleEdit}>Edit</TodoButtonText>
+        <TodoButtonText onClick={handleDelete}>Delete</TodoButtonText>
+        <TodoButtonText onClick={handleCollapse}>Cancel</TodoButtonText>
+      </TodoActionsWrapper>
     </TodoBox>
   )
 }

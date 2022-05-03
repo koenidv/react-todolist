@@ -9,7 +9,7 @@ export const TodosWrapper = styled.div`
     grid-template-columns: 1fr 1fr;
     padding: 0 1rem;
 
-    @media screen and (max-width: 56rem) {
+    @media screen and (max-width: 64rem) {
         grid-template-columns: 1fr;
     }
 
@@ -31,7 +31,7 @@ export const TodoEditBox = styled.div`
         margin: 0 1.75rem 1rem 1.75rem;
     }
 
-    @media screen and (max-width: 56rem) {
+    @media screen and (max-width: 64rem) {
         grid-template-areas: "content" "props";
         grid-template-columns: 1fr;
     }
@@ -97,7 +97,7 @@ export const ContentArea = styled.div`
     grid-area: content;
     padding-right: 1rem;
 
-    @media screen and (max-width: 56rem) {
+    @media screen and (max-width: 64rem) {
         padding: 0mm;
     }
 `
@@ -112,7 +112,7 @@ export const PropertiesArea = styled.div`
     justify-content: space-between;
     box-sizing: border-box;
 
-    @media screen and (max-width: 56rem) {
+    @media screen and (max-width: 64rem) {
         border-left: none;
         border-top: 1px solid #606060;
         padding: 1rem 0 1rem 0;
@@ -124,7 +124,7 @@ export const PropertiesWrapper = styled.div`
     display: flex;
     flex-direction: column;
 
-    @media screen and (max-width: 56rem) and (min-width: 40rem) {
+    @media screen and (max-width: 64rem) and (min-width: 40rem) {
         flex-direction: row;
     }
 `
@@ -154,6 +154,20 @@ export const TodoSummaryActionsWrapper = styled.div`
     margin-left: auto;
     display: flex;
     align-items: center;
+`
+
+export const TodoActionsWrapper = styled(LineWrapper)`
+    margin-left: 2.25rem;
+
+    >*:not(:last-child) {
+        margin-right: 1rem;
+    }
+
+    @media screen and (max-width: 40rem) {
+        margin: 0;
+        flex-wrap: wrap;
+        justify-items: stretch;
+    }
 `
 
 // Inputs
@@ -195,8 +209,16 @@ export const TodoButtonAction = styled(BaseButtonAction)`
     width: 100%;
     margin-top: 1rem;
 
-    @media screen and (max-width: 56rem) {
+    @media screen and (max-width: 64rem) {
         margin-top: 0;
+    }
+`
+
+export const TodoButtonActionInline = styled(BaseButtonAction)`
+    @media screen and (max-width: 40rem) {
+        width: 100%;
+        margin: 0 0 0.5rem 0;
+        margin-right: 0 !important;
     }
 `
 
@@ -216,6 +238,10 @@ export const TodoButtonText = styled(BaseButtonBorderless)`
             background-color: #281c3e;
         }
     }
+
+    @media screen and (max-width: 40rem) {
+        flex-grow: 1;
+    }
 `
 
 export const TodoButtonToggle = styled(BaseButtonBorderless)`
@@ -227,7 +253,7 @@ export const TodoButtonToggle = styled(BaseButtonBorderless)`
 `
 
 export const TodoDescriptionButton = styled(BaseButton)`
-    @media screen and (max-width: 56rem) {
+    @media screen and (max-width: 64rem) {
         border: none;
         &:hover {
             background-color: #242424;
