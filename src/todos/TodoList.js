@@ -7,6 +7,7 @@ import { EditTodo } from "./EditTodo"
 import { deleteTodo, updateTodo, updateTodoChecked } from "../faunaDb"
 import imgEdit from "../assets/edit.svg"
 import imgDelete from "../assets/delete.svg"
+import soundCompleted from "../assets/taskCompleted.mp3"
 
 export function TodosList({ todos, setTodos, others, setOthers }) {
   let returnList = ""
@@ -50,6 +51,8 @@ export function TodosList({ todos, setTodos, others, setOthers }) {
       .catch((err) => console.error("Something went wrong trying to update a task"))
     // Collapse all tasks
     setExpanded(undefined)
+    // Play a sound if the task is completed
+    if (checked) (new Audio(soundCompleted).play())
   }
 
   // Delete a todo and remove it from the local list
