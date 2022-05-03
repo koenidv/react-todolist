@@ -154,6 +154,10 @@ export const TodoSummaryActionsWrapper = styled.div`
     margin-left: auto;
     display: flex;
     align-items: center;
+
+    @media screen and (max-width: 22rem) {
+        display: none;
+    }
 `
 
 export const TodoActionsWrapper = styled(LineWrapper)`
