@@ -15,11 +15,7 @@ export const Header = styled.header`
 const HeaderBaseTitle = styled.h2`
     margin: 0;
     transition: color 100ms ease-out;
-
-    &:hover {
-        color: #6a459f;
-        cursor: pointer;
-    }
+    user-select: none;
 `
 
 const HeaderBaseIcon = styled.img`

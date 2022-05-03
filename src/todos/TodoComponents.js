@@ -120,11 +120,16 @@ export const TodoSummaryActionsWrapper = styled.div`
 export const TodoInputMain = styled(BaseInputBorderless)`
     width: 100%;
     display: block;
-    border-bottom: 1px solid #ffffff;
+    border-bottom: 1px solid #aeaeae;
     margin-bottom: 1rem;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
-    transition: background-color 150ms ease-out;
+    transition: background-color 150ms ease-out, border-color 100ms;
+
+    &:hover {
+        border-color: #ffffff;
+        background-color: #0a0a0a;
+    }
 
     &:active, &:focus {
         background-color: #161616;
