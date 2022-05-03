@@ -10,6 +10,14 @@ export const Header = styled.header`
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    @media screen and (max-width: 64rem) {
+        margin-bottom: 1rem;
+    }
+
+    @media screen and (max-width: 40rem) {
+        margin-bottom: 0.5rem;
+    }
 `
 
 const HeaderBaseTitle = styled.h2`
@@ -35,16 +43,6 @@ export const HeaderIconContainer = styled.div`
     height: 1.5rem;
 `
 
-export function HeaderTitleApp() {
-    const navigate = useNavigate()
-
-    const handleNavigationClick = () => {
-        navigate("/")
-    }
-
-    return <HeaderBaseTitle onClick={handleNavigationClick}>todolist</HeaderBaseTitle>
-}
-
 export function HeaderTitlePersonalized() {
     const navigate = useNavigate()
     const [email, setEmail] = useState("")
@@ -60,7 +58,7 @@ export function HeaderTitlePersonalized() {
 
     return (
         <HeaderBaseTitle onClick={handleNavigationClick}>
-            todolist | Hey {email}
+            todolist<span className="hidden-mobile"> | Hey {email}</span>
         </HeaderBaseTitle>
     )
 }

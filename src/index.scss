@@ -9,7 +9,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-input, select, textarea, button{font-family:inherit;}
+input,
+select,
+textarea,
+button {
+  font-family: inherit;
+}
 
 a {
   color: #6a459f;
@@ -17,4 +22,10 @@ a {
 
 .hidden {
   display: none !important;
+}
+
+.hidden-mobile {
+  @media screen and (max-width: 40rem) {
+    display: none;
+  }
 }
