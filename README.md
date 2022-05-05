@@ -3,6 +3,8 @@
 Hey 👋 This is my project for SE_19 Web Technologies Basics and ID_19 Responsive Web Design.
 It is deployed at [todolist.koenidv.de](https://todolist.koenidv.de).
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/74f23fea-fc70-40b8-875b-6a02fcd3cfd6/deploy-status)](https://app.netlify.com/sites/se19-todolist/deploys)
+
 ## Setting up your environment
 
 1. Once you cloned the repo, make sure to run `npm install` to install all dependencies.
