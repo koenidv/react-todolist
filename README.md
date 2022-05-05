@@ -1,6 +1,6 @@
-# SE_19 todolist
+# React todolist
 
-Hey 👋 This is my assessment project for SE_19. 
+Hey 👋 This is my project for SE_19 Web Technologies Basics and ID_19 Responsive Web Design.
 It is deployed at [todolist.koenidv.de](https://todolist.koenidv.de).
 
 ## Setting up your environment
@@ -16,10 +16,17 @@ It is deployed at [todolist.koenidv.de](https://todolist.koenidv.de).
 3. Paste this key into the `PUBLIC_CLIENT_KEY` constant in [faunaAuth](/src/auth/faunaAuth.js). If you have selected a region other than *EU*, make sure to also update the domain used in the client creation.
 4. Done! You will use your own Fauna instance now.
 
-## User Flow Chart
+## Data Flow Chart
 
 The React app is hosted on [Netlify](https://netlify.com), and is using Netlify's CI to build the app from GitHub.
 
-![User Flow Chart](UserFlowChart.svg)
+![Data Flow Chart](UserFlowChart.svg)
 
-[Click here to view the User Flow Chart on FlowMapp](https://app.flowmapp.com/share/de244f2c4ed86c7e059dcd9c84ec2305/userflow/187927/)
+[Click here to view the Flow Chart on FlowMapp](https://app.flowmapp.com/share/de244f2c4ed86c7e059dcd9c84ec2305/userflow/187927/)
+
+## Design Breakpoints
+
+- < 40rem (640px at 16px): [small](https://user-images.githubusercontent.com/32238636/166923732-d1c7d083-63a8-4771-b9f9-696070a347b0.png)
+- < 64rem (1024px at 16px): [medium](https://user-images.githubusercontent.com/32238636/166923726-d4b2b886-27f3-4b08-9406-ebd44c5c1a08.png)
+- < 108rem (1728px at 16px): [large](https://user-images.githubusercontent.com/32238636/166923271-48ad18d8-292b-42a8-a8ff-ebc6d5f3bd2b.png)
+- \> 108rem: [xlarge](https://user-images.githubusercontent.com/32238636/166923420-6f16f53b-0c91-437a-83f6-773d55f65962.png)
