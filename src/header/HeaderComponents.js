@@ -6,7 +6,7 @@ import imgLogout from "../assets/logout.svg"
 import imgUser from "../assets/user.svg"
 
 export const Header = styled.header`
-    width: calc(100vw - 2rem);
+    width: calc(100% - 2rem);
     margin: 1rem 1rem 2rem 1rem;
     display: flex;
     align-items: center;
