@@ -1,53 +1,61 @@
-import { useNavigate } from "react-router-dom"
 import styled from "styled-components"
-import { useState } from "react"
-import { useEffect } from "react"
+import { useNavigate } from "react-router-dom"
+import { useState, useEffect } from "react"
+import { BaseButtonBorderless, BaseInfoText } from "../baseComponents/InputBaseComponents"
 import imgLogout from "../assets/logout.svg"
+import imgUser from "../assets/user.svg"
 
 export const Header = styled.header`
-    width: calc(100vw - 2rem);
+    width: calc(100% - 2rem);
     margin: 1rem 1rem 2rem 1rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    @media screen and (max-width: 64rem) {
+        margin-bottom: 1rem;
+    }
+
+    @media screen and (max-width: 40rem) {
+        margin-bottom: 0.5rem;
+    }
 `
 
 const HeaderBaseTitle = styled.h2`
     margin: 0;
+    font-size: 1.5rem;
     transition: color 100ms ease-out;
+    user-select: none;
+`
 
-    &:hover {
-        color: #6a459f;
-        cursor: pointer;
+const HeaderIconButton = styled(BaseButtonBorderless)`
+    display: flex;
+    height: 100%;
+    padding: 0.25rem;
+    align-items: center;
+`
+
+const HeaderIconButtonText = styled(BaseInfoText)`
+    margin-left: 0.5rem;
+
+    @media screen and (max-width: 40rem) {
+        display: none;
     }
 `
 
 const HeaderBaseIcon = styled.img`
-    height: 100%;
+    height: 1.5rem;
     max-width: 2rem;
-    transition: filter 100ms ease-out;
-
-    &:hover {
-        // This "color filter" transforms the icon color to #6a459f
-        // Created using this Codepen: https://codepen.io/sosuke/pen/Pjoqqp
-        filter: brightness(0) saturate(100%) invert(30%) sepia(52%) saturate(1276%) hue-rotate(233deg) brightness(83%) contrast(84%);
-        cursor: pointer;
-    }
 `
 
 export const HeaderIconContainer = styled.div`
-    height: 1.5rem;
-`
+    display: flex;
+    height: 2.25rem;
 
-export function HeaderTitleApp() {
-    const navigate = useNavigate()
-
-    const handleNavigationClick = () => {
-        navigate("/")
+    >* {
+        margin-left: 0.5rem;
     }
-
-    return <HeaderBaseTitle onClick={handleNavigationClick}>todolist</HeaderBaseTitle>
-}
+`
 
 export function HeaderTitlePersonalized() {
     const navigate = useNavigate()
@@ -64,7 +72,7 @@ export function HeaderTitlePersonalized() {
 
     return (
         <HeaderBaseTitle onClick={handleNavigationClick}>
-            todolist | Hey {email}
+            todolist<span className="hidden-mobile"> | Hey {email}</span>
         </HeaderBaseTitle>
     )
 }
@@ -76,6 +84,9 @@ export function HeaderIcon({ type, navto, tooltip }) {
     switch (type) {
         case "logout":
             icon = imgLogout
+            break
+        case "user":
+            icon = imgUser
             break
         default:
             break
@@ -90,5 +101,10 @@ export function HeaderIcon({ type, navto, tooltip }) {
         throw new Error("Invalid Type was specified for HeaderIcon")
     }
 
-    return <HeaderBaseIcon src={imgLogout} onClick={handleClick} title={tooltip} />
+    return (
+        <HeaderIconButton onClick={handleClick}>
+            <HeaderBaseIcon src={icon} title={tooltip} />
+            <HeaderIconButtonText>{tooltip}</HeaderIconButtonText>
+        </HeaderIconButton>
+    )
 }

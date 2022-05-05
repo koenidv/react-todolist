@@ -1,6 +1,7 @@
 # FQL Query to set up a FaunaDB instance
 
 Step 1: Create Collections
+
 ```js
 CreateCollection({
   name: "todos",
@@ -16,6 +17,7 @@ CreateCollection({
 ```
 
 Step 2: Create Indices
+
 ```js
 CreateIndex({
   name: "todos_by_owner",
@@ -25,6 +27,21 @@ CreateIndex({
   terms: [
     {
       field: ["data", "owner"]
+    }
+  ]
+})
+
+CreateIndex({
+  name: "todos_by_owner_and_checked",
+  unique: false,
+  serialized: true,
+  source: Collection("todos"),
+  terms: [
+    {
+      field: ["data", "owner"]
+    },
+    {
+      field: ["data", "checked"]
     }
   ]
 })
@@ -43,6 +60,7 @@ CreateIndex({
 ```
 
 STep 3: Create Permission Roles
+
 ```js
 CreateRole({
   name: "user",
@@ -92,6 +110,13 @@ CreateRole({
     },
     {
       resource: Index("todos_by_owner"),
+      actions: {
+        unrestricted_read: false,
+        read: true
+      }
+    },
+        {
+      resource: Index("todos_by_owner_and_checked"),
       actions: {
         unrestricted_read: false,
         read: true

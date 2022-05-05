@@ -1,21 +1,54 @@
 import { Checkbox } from "pretty-checkbox-react"
 import styled from "styled-components"
-import { BaseButtonAction, BaseButtonBorderless, BaseInputBorderless, BaseTextArea } from "../baseComponents/InputBaseComponents"
+import { BaseButton, BaseButtonAction, BaseButtonBorderless, BaseInfoText, BaseInputBorderless, BaseTextArea } from "../baseComponents/InputBaseComponents"
 
 // Containers
+
+export const TodosWrapper = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0 1rem;
+
+    @media screen and (max-width: 64rem) {
+        grid-template-columns: 1fr;
+    }
+
+    @media screen and (max-width: 40rem) {
+        padding: 0;
+    }
+`
 
 export const TodoEditBox = styled.div`
     display: grid;
     grid-template-columns: [content] 2fr [props] 1fr;
     padding: 1rem;
-    margin: 0 2rem 1rem 2rem;
-    border: 1px solid #ffffff;
+    margin: 0 0.75rem 0.75rem 0.75rem;
+    border: 1px solid #aeaeae;
+    border-radius: 4px;
+    box-sizing: border-box;
+
+    &.outside {
+        margin: 0 1.75rem 1rem 1.75rem;
+    }
+
+    @media screen and (max-width: 64rem) {
+        grid-template-areas: "content" "props";
+        grid-template-columns: 1fr;
+    }
+
+    @media screen and (max-width: 40rem) {
+        &.outside {
+            margin: 0 0.75rem 0.75rem 0.75rem;
+        }
+    }
 `
 
 export const TodoBox = styled.div`
     padding: 1rem;
-    margin: 0 2rem 1rem 2rem;
-    border: 1px solid #ffffff;
+    margin: 0 0.75rem 0.75rem 0.75rem;
+    border: 1px solid #242424;
+    border-radius: 4px;
+    box-sizing: border-box;
     
     &.pr-2 {
         background-color: #242424;
@@ -29,10 +62,11 @@ export const TodoBox = styled.div`
 `
 
 export const TodoBoxSummary = styled.div`
-    display: flex;
     padding: 1rem;
-    margin: 0 2rem 1rem 2rem;
+    margin: 0 0.75rem 0.75rem 0.75rem;
     border-radius: 4px;
+    border: 1px solid #242424;
+    box-sizing: border-box;
     align-items: center;
     transition: background-color 100ms ease-out;
 
@@ -42,6 +76,7 @@ export const TodoBoxSummary = styled.div`
 
     &.pr-2 {
         background-color: #242424;
+        border: none;
 
         &:hover {
             background-color: #2d2d2d;
@@ -50,7 +85,8 @@ export const TodoBoxSummary = styled.div`
 
     &.pr-3 {
         background-color: #35224f;
-        
+        border: none;
+
         &:hover {
             background-color: #3f295f;
         }
@@ -60,20 +96,41 @@ export const TodoBoxSummary = styled.div`
 export const ContentArea = styled.div`
     grid-area: content;
     padding-right: 1rem;
+
+    @media screen and (max-width: 64rem) {
+        padding: 0mm;
+    }
 `
 
 export const PropertiesArea = styled.div`
     grid-area: props;
     height: 100%;
-    border-left: 1px solid #ffffff;
+    border-left: 1px solid #606060;
     padding-left: 1rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    box-sizing: border-box;
+
+    @media screen and (max-width: 64rem) {
+        border-left: none;
+        border-top: 1px solid #606060;
+        padding: 1rem 0 1rem 0;
+        margin: 1rem 0 0 0;
+    }
+`
+
+export const PropertiesWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+
+    @media screen and (max-width: 64rem) and (min-width: 40rem) {
+        flex-direction: row;
+    }
 `
 
 export const TodoBody = styled.div`
-    margin-left: 2rem;
+    margin-left: 2.25rem;
 `
 
 export const PrioritiesWrapper = styled.div`
@@ -90,13 +147,31 @@ export const PrioritiesWrapper = styled.div`
 export const LineWrapper = styled.div`
     display: flex;
     width: 100%;
-    align-items: baseline;
+    align-items: center;
 `
 
 export const TodoSummaryActionsWrapper = styled.div`
     margin-left: auto;
     display: flex;
     align-items: center;
+
+    @media screen and (max-width: 22rem) {
+        display: none;
+    }
+`
+
+export const TodoActionsWrapper = styled(LineWrapper)`
+    margin-left: 2.25rem;
+
+    >*:not(:last-child) {
+        margin-right: 1rem;
+    }
+
+    @media screen and (max-width: 40rem) {
+        margin: 0;
+        flex-wrap: wrap;
+        justify-items: stretch;
+    }
 `
 
 // Inputs
@@ -104,11 +179,16 @@ export const TodoSummaryActionsWrapper = styled.div`
 export const TodoInputMain = styled(BaseInputBorderless)`
     width: 100%;
     display: block;
-    border-bottom: 1px solid #ffffff;
+    border-bottom: 1px solid #aeaeae;
     margin-bottom: 1rem;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
-    transition: background-color 150ms ease-out;
+    transition: background-color 150ms ease-out, border-color 100ms;
+
+    &:hover {
+        border-color: #ffffff;
+        background-color: #0a0a0a;
+    }
 
     &:active, &:focus {
         background-color: #161616;
@@ -132,11 +212,40 @@ export const TodoCheckbox = styled(Checkbox)`
 export const TodoButtonAction = styled(BaseButtonAction)`
     width: 100%;
     margin-top: 1rem;
+
+    @media screen and (max-width: 64rem) {
+        margin-top: 0;
+    }
+`
+
+export const TodoButtonActionInline = styled(BaseButtonAction)`
+    @media screen and (max-width: 40rem) {
+        width: 100%;
+        margin: 0 0 0.5rem 0;
+        margin-right: 0 !important;
+    }
+`
+
+export const TodoButtonTextAction = styled(BaseButtonBorderless)`
+    width: 100%;
+    text-align: start;
 `
 
 export const TodoButtonText = styled(BaseButtonBorderless)`
-    width: 100%;
-    text-align: start;
+    ${TodoBox}.pr-2 & {
+        &:hover {
+            background-color: #161616;
+        }
+    }
+    ${TodoBox}.pr-3 & {
+        &:hover {
+            background-color: #281c3e;
+        }
+    }
+
+    @media screen and (max-width: 40rem) {
+        flex-grow: 1;
+    }
 `
 
 export const TodoButtonToggle = styled(BaseButtonBorderless)`
@@ -144,6 +253,18 @@ export const TodoButtonToggle = styled(BaseButtonBorderless)`
 
     &.selected {
         background-color: #6a459f;
+    }
+`
+
+export const TodoDescriptionButton = styled(BaseButton)`
+    @media screen and (max-width: 64rem) {
+        border: none;
+        &:hover {
+            background-color: #242424;
+        }
+    }
+    @media screen and (max-width: 40rem) {
+        width: 100%
     }
 `
 
@@ -172,11 +293,15 @@ export const TodoActionIcon = styled.img`
 
 // Text
 
-export const TodoInfoText = styled.p`
-    color: #ffffff;
-    font-size: 1rem;
+export const TodoInfoText = styled(BaseInfoText)`
     display: block;
     margin: 0.25rem 0 0.25rem 0;
+`
+
+export const TodoPlaceHolderInfoText = styled(BaseInfoText)`
+    width: 100%;
+    color: #aaaaaa;
+    text-align: center;
 `
 
 export const TodoTitleCompact = styled.h4`

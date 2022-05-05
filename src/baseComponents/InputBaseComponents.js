@@ -2,6 +2,11 @@ import styled from "styled-components"
 
 export const BaseTitle = styled.h1``
 
+export const BaseInfoText = styled.p`
+    color: #ffffff;
+    font-size: 1rem;
+`
+
 export const BaseInputBorderless = styled.input`
     background-color: transparent;
     padding: 1rem;
@@ -18,12 +23,18 @@ export const BaseInputBorderless = styled.input`
 
 export const BaseInput = styled(BaseInputBorderless)`
     border: 1px solid #aaaaaa;
+    border-radius: 4px;
     font-family: "Space Mono";
-    transition: border-radius 100ms, border-color 100ms;
+    transition: border-radius 100ms, border-color 100ms, background-color 100ms;
 
-    &:hover, &:active, &:focus {
-        border-radius: 4px;
-        border-color: #ffffff;
+    &:hover {
+        border-color: #606060;
+        background-color: #121212;
+    }
+    
+    &:active, &:focus {
+        border-color: #242424;
+        background-color: #242424;
     }
 `
 
@@ -32,7 +43,7 @@ export const BaseTextArea = styled.textarea`
     padding: 1rem;
     font-size: 1rem;
     color: #ffffff;
-    border-radius: 0;
+    border-radius: 4px;
     border: none;
     box-sizing: border-box;
     border: 1px solid #aaaaaa;
@@ -51,7 +62,6 @@ export const BaseButtonBorderless = styled.button`
     padding: 1rem;
     font-size: 1rem;
     color: #ffffff;
-    border-radius: 0;
     box-sizing: border-box;
     text-align: center;
     transition: border-radius 100ms, border-color 100ms, background-color 150ms ease-out;
@@ -66,7 +76,6 @@ export const BaseButtonBorderless = styled.button`
 
 export const BaseButton = styled(BaseButtonBorderless)`
     border: 1px solid #aaaaaa;
-    border-radius: 0;
 
     &:hover {
         border-radius: 4px;

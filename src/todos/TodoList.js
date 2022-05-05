@@ -1,4 +1,4 @@
-import { TodoBoxSummary, TodoInfoText, TodoTitle, TodoTitleCompact, LineWrapper, TodoBox, TodoBody, TodoText, TodoSummaryActionsWrapper, TodoActionIcon } from "./TodoComponents"
+import { TodoBoxSummary, TodoInfoText, TodoTitle, TodoTitleCompact, LineWrapper, TodoBox, TodoBody, TodoText, TodoSummaryActionsWrapper, TodoActionIcon, TodosWrapper, TodoButtonText, TodoActionsWrapper, TodoButtonActionInline } from "./TodoComponents"
 import { Checkbox } from "pretty-checkbox-react"
 import { shortenYear } from "../baseComponents/Utilities"
 import { useState } from "react"
@@ -7,8 +7,9 @@ import { EditTodo } from "./EditTodo"
 import { deleteTodo, updateTodo, updateTodoChecked } from "../faunaDb"
 import imgEdit from "../assets/edit.svg"
 import imgDelete from "../assets/delete.svg"
+import soundCompleted from "../assets/taskCompleted.mp3"
 
-export function TodosList({ todos, setTodos }) {
+export function TodosList({ todos, setTodos, others, setOthers }) {
   let returnList = ""
   const [expanded, setExpanded] = useState()
   const [editing, setEditing] = useState()
@@ -34,17 +35,24 @@ export function TodosList({ todos, setTodos }) {
 
   // Updates the checked status on Fauna and in the local list
   const checkTodo = (index, id, checked) => {
-    // Locally epdate checked property
+    // Locally update checked property
     todos[index].data.checked = checked
-    // Sort by not checked, checked
-    //todos.sort((a, b) => a.data.checked && b.data.checked ? 0 : a.data.checked ? 1 : -1 )
-    //Save edited task, in a copied array to make React update the component
-    setTodos([...todos])
+    // If lists for un/checked are separated, move to other list
+    if (others && setOthers) {
+      setOthers([todos[index], ...others])
+      todos.splice(index, 1)
+      setTodos([...todos])
+    } else {
+      //Save edited task, in a copied array to make React update the component
+      setTodos([...todos])
+    }
     // Mark the Task as checked on Fauna
     updateTodoChecked(id, checked)
       .catch((err) => console.error("Something went wrong trying to update a task"))
     // Collapse all tasks
     setExpanded(undefined)
+    // Play a sound if the task is completed
+    if (checked) (new Audio(soundCompleted).play())
   }
 
   // Delete a todo and remove it from the local list
@@ -107,13 +115,18 @@ function TodoSummary({ data, id, setExpanded, setEditing, handleCheckTodo, handl
 
   return (
     <TodoBoxSummary className={getPriorityClassName(data.priority)} onClick={handleExpand}>
-      <TodoCheckbox checked={data.checked} handleChecked={handleCheckTodo} id={id} />
-      <TodoTitleCompact>{data.title}</TodoTitleCompact>
-      <TodoInfoText>{dueText}{data.descr && " 💬"}</TodoInfoText>
-      <TodoSummaryActionsWrapper>
-        <TodoActionIcon src={imgEdit} onClick={handleEdit} title="Edit" />
-        <TodoActionIcon src={imgDelete} onClick={handleDelete} title="Delete" />
-      </TodoSummaryActionsWrapper>
+      <LineWrapper>
+        <TodoCheckbox checked={data.checked} handleChecked={handleCheckTodo} id={id} />
+        <TodoTitleCompact>{data.title}</TodoTitleCompact>
+        <TodoInfoText>{dueText}</TodoInfoText>
+        <TodoSummaryActionsWrapper>
+          <TodoActionIcon src={imgEdit} onClick={handleEdit} title="Edit" />
+          <TodoActionIcon src={imgDelete} onClick={handleDelete} title="Delete" />
+        </TodoSummaryActionsWrapper>
+      </LineWrapper>
+      <TodoBody>
+        <TodoInfoText>{data.descr}</TodoInfoText>
+      </TodoBody>
     </TodoBoxSummary>
   )
 }
@@ -146,14 +159,14 @@ function TodoView({ data, id, setExpanded, setEditing, handleCheckTodo, handleDe
       <TodoBody>
         <TodoInfoText>{infoText}</TodoInfoText>
         <TodoText>{data.descr}</TodoText>
-        <LineWrapper>
-          {data.checked && <BaseButtonAction onClick={handleCheckTodo} checked={false} className="active" style={{ marginRight: "1rem" }}>Mark Incomplete</BaseButtonAction>}
-          {!data.checked && <BaseButtonAction onClick={handleCheckTodo} checked={true} className="active" style={{ marginRight: "1rem" }}>Mark Complete</BaseButtonAction>}
-          <BaseButtonBorderless onClick={handleEdit} style={{ marginRight: "1rem" }}>Edit</BaseButtonBorderless>
-          <BaseButtonBorderless onClick={handleDelete} style={{ marginRight: "1rem" }}>Delete</BaseButtonBorderless>
-          <BaseButtonBorderless onClick={handleCollapse} style={{ marginRight: "1rem" }}>Cancel</BaseButtonBorderless>
-        </LineWrapper>
       </TodoBody>
+      <TodoActionsWrapper>
+        {data.checked && <TodoButtonActionInline onClick={handleCheckTodo} checked={false} className="active">Reopen</TodoButtonActionInline>}
+        {!data.checked && <TodoButtonActionInline onClick={handleCheckTodo} checked={true} className="active">Complete</TodoButtonActionInline>}
+        <TodoButtonText onClick={handleEdit}>Edit</TodoButtonText>
+        <TodoButtonText onClick={handleDelete}>Delete</TodoButtonText>
+        <TodoButtonText onClick={handleCollapse}>Cancel</TodoButtonText>
+      </TodoActionsWrapper>
     </TodoBox>
   )
 }

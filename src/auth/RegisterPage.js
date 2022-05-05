@@ -22,7 +22,7 @@ export function RegisterPage() {
 
     return (
         <div className="app">
-            <RegisterWrapper />)
+            <RegisterWrapper />
         </div>
     )
 }
@@ -80,7 +80,7 @@ function RegisterWrapper() {
                 <AuthInput type="password" placeholder="Repeat your Password" value={passwordConfirm}
                     onChange={handleSetPasswordConfirm} onKeyDown={handleKeyDown} />
                 <AuthButton onClick={handleCreateUser} className={buttonActive ? "active" : ""}>Create your Account</AuthButton>
-                <AuthInfoText>Already have an account? <a href="/login">Go to Login</a></AuthInfoText>
+                <AuthInfoText>Already have an account? <a href="/login" style={{ whiteSpace: 'nowrap' }}>Go to Login</a></AuthInfoText>
             </AuthBox>
         </AuthBoxWrapper>
     )
