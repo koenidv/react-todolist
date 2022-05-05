@@ -82,7 +82,10 @@ export function EditTodo({ current, saveTodo, className, cancelCallback }) {
     const handleKeyDown = (e) => {
         if (e.ctrlKey && e.key === "Enter") handleSave()
     }
-    const handleSetTitle = ({ target }) => setTitle(target.value)
+    const handleSetTitle = ({ target }) => {
+        setTitle(target.value)
+        setSaveText(target.value === "" ? "Cancel" : "Save")
+    }
 
     return (
         <TodoEditBox className={className}>

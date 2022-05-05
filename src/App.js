@@ -68,7 +68,8 @@ function App() {
           <TodosList todos={entriesUnchecked} setTodos={setEntriesUnchecked} others={entriesChecked} setOthers={setEntriesChecked} />
         </div>
         <div id="checked">
-          {entriesChecked.length === 0 && entriesUnchecked.length !== 0 && <TodoPlaceHolderInfoText>Your completed tasks will show up here</TodoPlaceHolderInfoText>}
+          {entriesChecked.length === 0 && entriesUnchecked.length !== 0 &&
+            <TodoPlaceHolderInfoText className="hidden-mobile">Your completed tasks will show up here</TodoPlaceHolderInfoText>}
           <TodosList todos={entriesChecked} setTodos={setEntriesChecked} others={entriesUnchecked} setOthers={setEntriesUnchecked} />
         </div>
       </TodosWrapper>
