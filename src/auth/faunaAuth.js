@@ -12,10 +12,12 @@ export const fauna = new faunadb.Client({
 
 // Save secret, userid and username to session storage
 // To remember the access token across page reloads
+// Also save logged in before to local storage
 export function saveToSession([secret, userRef, email]) {
     sessionStorage.setItem("secret", secret)
     sessionStorage.setItem("userId", userRef.value.id)
     sessionStorage.setItem("email", email)
+    localStorage.setItem("logged_in_before", true)
 }
 
 // Removes saved data from session storage

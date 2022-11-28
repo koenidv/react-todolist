@@ -1,26 +1,24 @@
-import { Route, Routes, useNavigate } from "react-router-dom"
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom"
 import { LoginPage } from "./auth/LoginPage"
 import { RegisterPage } from "./auth/RegisterPage"
 import { LogoutPage } from "./auth/LogoutPage"
 import { useState, useEffect } from "react"
-import { getTodos, getTodosByChecked } from "./faunaDb"
+import { getTodosByChecked } from "./faunaDb"
 import { Header, HeaderIcon, HeaderIconContainer, HeaderTitlePersonalized } from "./header/HeaderComponents"
 import { clearSession, getSecret } from "./auth/faunaAuth"
 import { TodosList } from "./todos/TodoList"
 import { CreateTodoButton } from "./todos/EditTodo"
 import { TodoPlaceHolderInfoText, TodosWrapper } from "./todos/TodoComponents"
-import { BaseInfoText } from "./baseComponents/InputBaseComponents"
 
 function RoutingWrapper() {
   return (
     <Routes>
-      <Route path="*" element={<App />} />
+      <Route path="*" element={getSecret() !== null ? <App /> : localStorage.getItem("logged_in_before") ? <LoginPage /> : <RegisterPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/logout" element={<LogoutPage />} />
     </Routes>
   )
-
 }
 
 function App() {
@@ -28,9 +26,6 @@ function App() {
   const [entriesUnchecked, setEntriesUnchecked] = useState([])
   const [entriesChecked, setEntriesChecked] = useState([])
   const navigate = useNavigate()
-
-  // Redirect to login if no access token is stored
-  if (getSecret() === null) navigate("/login")
 
   useEffect(() => {
     const handleError = (err) => {

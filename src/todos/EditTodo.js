@@ -1,4 +1,3 @@
-import { BaseButton } from "../baseComponents/InputBaseComponents"
 import { ContentArea, PropertiesArea, TodoEditBox, TodoInputMain, TodoTextArea, TodoButtonAction, TodoButtonMainCreate, TodoButtonTextAction, PrioritiesWrapper, TodoInfoText, TodoButtonToggle, PropertiesWrapper, TodoDescriptionButton } from "./TodoComponents"
 import { useState, useEffect } from "react"
 import { createTodo } from "../faunaDb"

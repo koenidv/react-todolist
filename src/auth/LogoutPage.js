@@ -10,7 +10,7 @@ export function LogoutPage() {
     useEffect(() => {
         const onLoggedOut = () => {
             clearSession()
-            navigate("/login")
+            navigate("/")
         }
 
         logout()
